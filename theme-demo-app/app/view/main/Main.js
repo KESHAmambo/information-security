@@ -13,6 +13,7 @@ Ext.define('ThemeDemoApp.view.main.Main', {
         type: 'main'
     },
 
+    renderTo: Ext.getBody(),
     layout: 'fit',
 
     menuButtonWithItemsTpl: new Ext.XTemplate(

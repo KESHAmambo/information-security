@@ -13,7 +13,9 @@ Ext.define('ThemeDemoApp.Application', {
     ],
     
     launch: function () {
-        // TODO - Launch the application
+        Ext.create({
+            xtype: 'login'
+        })
     },
 
     onAppUpdate: function () {
