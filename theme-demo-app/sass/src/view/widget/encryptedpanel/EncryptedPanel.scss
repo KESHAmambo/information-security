@@ -1,0 +1,25 @@
+.encrypted-panel {
+  .x-progress-bar {
+    background: $s-green-color;
+  };
+  .s-btn-green {
+    .x-btn-icon-el {
+      color: $s-green-color !important;
+    }
+    &.x-btn-over {
+      .x-btn-icon-el {
+        text-shadow: 0 0 18px $s-green-color;
+      }
+    }
+  }
+  .s-btn-orange {
+    .x-btn-icon-el {
+      color: $orange-color !important;
+    }
+    &.x-btn-over {
+      .x-btn-icon-el {
+        text-shadow: 0 0 18px $orange-color;
+      }
+    }
+  }
+}

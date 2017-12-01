@@ -1,0 +1,14 @@
+.created-panel {
+  .x-progress-bar {
+    background: $pink-color;
+  };
+  .s-share {
+    .x-grid-cell-inner {
+      @include fa();
+      &:before {
+        content: "\f00c" !important;
+        color: $pink-color;
+      }
+    }
+  }
+}

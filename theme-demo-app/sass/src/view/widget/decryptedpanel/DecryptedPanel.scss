@@ -1,0 +1,15 @@
+.decrypted-panel {
+  .x-btn-icon-el {
+    color: $s-dark-gray-color !important;
+  }
+  .x-btn-over {
+    .x-btn-icon-el {
+      text-shadow: 0 0 18px $s-dark-gray-color;
+    }
+  }
+  .x-grid-item-over {
+    .x-btn-icon-el {
+      color: $s-dark-gray-color !important;
+    }
+  }
+}

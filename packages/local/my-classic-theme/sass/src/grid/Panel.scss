@@ -1,0 +1,84 @@
+.x-grid {
+  .x-grid-header-ct {
+    border-radius: 4px;
+    .x-column-header {
+      background: #f8f8f8;
+      border: none;
+      height: 40px;
+      color: $purple-color;
+      font-family: $s-font-family;
+      font-weight: 700;
+    }
+  }
+  .x-panel-body {
+    border: none;
+    .x-progress {
+      height: 24px;
+      border-radius: 4px;
+      background: $gray-color;
+      .x-progress-text {
+        line-height: 24px;
+      }
+    }
+  }
+  .x-grid-cell {
+    &.x-grid-item-focused {
+      :before {
+        border: none;
+      }
+    }
+    .x-grid-cell-inner {
+      padding: 0 10px;
+    }
+  }
+  .x-grid-item {
+    height: 40px;
+    border: none !important;
+    font-family: $s-font-family;
+    color: $purple-color;
+    font-size: 14px;
+    margin-top: 8px;
+    background: rgba(239, 239, 239, 0.44);;
+    border-radius: 4px;
+    &:first-child {
+      border: none !important;
+    }
+    .x-container {
+      .x-box-inner {
+        background: transparent;
+        overflow: visible;
+        .x-btn {
+          top: 7px !important;
+          height: 30px;
+          .x-btn-button {
+            display: inline-flex;
+            justify-content: center;
+            .x-btn-icon-el {
+              &:before {
+                @include custom-transition(0.3s, text-shadow);
+              }
+            }
+          }
+        }
+      }
+    }
+    td {
+      vertical-align: middle !important;
+    }
+  }
+  &.s-btn-visible-on-over {
+    .x-grid-item {
+      .x-btn {
+        display: none;
+        .x-btn-icon-el {
+          color: transparent;
+        }
+      }
+      &.x-grid-item-over {
+        .x-btn {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,164 @@
+.s-main-top-toolbar {
+  padding: 0;
+  .s-username-label {
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .s-day {
+    top: 35px !important;
+  }
+  .s-date {
+    top: 35px !important;
+    font-weight: 600
+  }
+}
+
+.s-menu-panel {
+  .s-menu-button {
+    @include custom-transition(200ms, transform, box-shadow, border-color, background);
+    padding: 0;
+    border-radius: 5px;
+    border-width: 0 0 0 5px;
+    background: white;
+    &.x-btn-over, &.x-btn-pressed {
+      background: white !important;
+      box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.25);
+      transform: translateY(-3px);
+    }
+    .x-btn-inner {
+      display: inline-flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      margin-left: 14px;
+      padding: 0;
+      .fa {
+        font-size: 18px;
+        color: $pink-color;
+      }
+      .s-btn-text {
+        width: 100%;
+        margin-left: 14px;
+        color: $purple-color;
+        font-family: monospace;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+      }
+      .s-items {
+        height: 100%;
+        width: 68px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border-radius: 47% 0 0 47%;
+        color: white;
+        font-family: monospace;
+        text-transform: uppercase;
+        .s-items-count {
+          font-size: 14px;
+          position: relative;
+          top: 2px;
+        }
+        .s-items-text {
+          margin-left: 4px;
+          font-size: 10px;
+        }
+      }
+    }
+    &.s-encrypted-btn {
+      border-color: $s-green-color;
+      .s-items {
+        background: $s-green-color;
+      }
+    }
+    &.s-decrypted-btn {
+      border-color: $orange-color;
+      .s-items {
+        background: $orange-color;
+      }
+    }
+    &.s-created-btn {
+      border-color: $pink-color;
+      .s-items {
+        background: $pink-color;
+      }
+    }
+    &.s-compose-btn {
+      border-color: $purple-color;
+      .s-items {
+        background: $purple-color;
+      }
+    }
+    &.s-settings-btn {
+      border-color: $faint-purple-color;
+      .s-items {
+        background: $faint-purple-color;
+      }
+    }
+  }
+}
+
+.s-main-panel {
+  > .x-panel-bodyWrap {
+    > .x-panel-body {
+      z-index: 2;
+    }
+  }
+}
+
+.s-main-panel, .s-menu-panel {
+  overflow: visible;
+  > .x-panel-bodyWrap {
+    overflow: visible;
+    > .x-panel-body {
+      overflow: visible;
+      > .x-box-inner {
+        overflow: visible;
+        > .x-box-target {
+          overflow: visible;
+        }
+      }
+    }
+  }
+}
+
+.s-main-card-panel {
+  @include custom-transition(0.3s, border-color);
+  border-radius: 5px;
+  border-width: 0 0 0 5px;
+  border-color: white;
+  border-style: solid;
+}
+
+.s-compose-btn {
+  @include custom-transition(300ms, transform, box-shadow, border-color, background);
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.25) !important;
+  position: fixed !important;
+  bottom: 56px;
+  right: 44px;
+  left: auto;
+  top: auto;
+  height: 52px;
+  width: 52px;
+  border-radius: 50%;
+  border: none;
+  background: $pink-color !important;
+  &.x-btn-over, &.x-btn-pressed {
+    background: $faint-purple-color !important;
+  }
+  &.x-btn-over {
+    .x-btn-icon-el {
+      transform: rotate(360deg);
+    }
+  }
+  &.x-btn-pressed {
+    box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.25) !important;
+  }
+  .x-btn-icon-el {
+    @include custom-transition(300ms, transform);
+    font-size: 18px;
+  }
+}

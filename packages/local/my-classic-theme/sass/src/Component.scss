@@ -1,0 +1,26 @@
+.x-body {
+  background: $gray-color;
+  font-family: monospace !important;
+  color: $purple-color;
+}
+
+@mixin custom-transition($duration, $properties...) {
+  -webkit-transition-property: $properties;
+  -webkit-transition-duration: $duration;
+  transition-property: $properties;
+  transition-duration: $duration;
+}
+
+@mixin button-transition() {
+  .x-btn {
+    @include custom-transition(0.3s, background-color, border-color, box-shadow);
+  }
+}
+
+@mixin fa() {
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

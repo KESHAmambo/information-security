@@ -1,0 +1,14 @@
+@include extjs-button-small-ui(
+        $ui: 'transparent',
+        $color: $purple-color,
+        $font-size: 14px,
+        $font-weight: 700,
+        $border-width: 0,
+        $border-color-over: none,
+        $border-color-focus: none,
+        $border-color-pressed: none,
+        $background-color: transparent
+);
+.x-btn-transparent-small-focus {
+  box-shadow: none !important;
+}
