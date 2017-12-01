@@ -66,11 +66,8 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                     color: '#ec7c9d'
                 },
                 {
-                    xtype: 'compose-panel',
-                    color: '#643fac'
-                },
-                {
                     xtype: 'settings-panel',
+                    bodyPadding: '66 16 9',
                     color: '#d5a0d5'
                 }
             ],
@@ -143,9 +140,9 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                         defaults: {
                             xtype: 'button',
                             cls: 's-menu-button',
-                            width: 250,
+                            width: 220,
                             height: 50,
-                            margin: '0 16 16',
+                            margin: '0 16 16 0',
                             toggleGroup: 'menu-buttons',
                             allowDepress: false
                         },
@@ -184,17 +181,6 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                                     cardLayout.setActiveItem(2);
                                 }
                             },
-                            /*{
-                                userCls: 's-compose-btn',
-                                html: menuButtonTpl.apply({
-                                    text: 'Compose',
-                                    iconCls: 'fa fa-plus',
-                                    count: 10
-                                }),
-                                handler: function(button) {
-                                    cardLayout.setActiveItem(3);
-                                }
-                            },*/
                             {
                                 userCls: 's-settings-btn',
                                 html: menuButtonTpl.apply({
@@ -203,7 +189,7 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                                     count: 10
                                 }),
                                 handler: function(button) {
-                                    cardLayout.setActiveItem(4);
+                                    cardLayout.setActiveItem(3);
                                 }
                             }
                         ]
@@ -218,8 +204,9 @@ Ext.define('ThemeDemoApp.view.main.Main', {
 
     listeners: {
         afterrender: function(view) {
-            var createCloseButton = Ext.create({
+            var composeCloseButton = Ext.create({
                 xtype: 'button',
+                itemId: 'composeBtn',
                 cls: 's-compose-btn',
                 iconCls: 'fa fa-plus',
                 floating: true,

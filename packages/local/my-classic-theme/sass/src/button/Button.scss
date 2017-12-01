@@ -1,3 +1,9 @@
+@include button-transition();
+.x-btn {
+  .x-btn-inner {
+    text-transform: uppercase;
+  }
+}
 @include extjs-button-small-ui(
         $ui: 'transparent',
         $color: $purple-color,

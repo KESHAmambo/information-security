@@ -1,11 +1,18 @@
-.s-login {
+.s-login-panel {
   border-radius: $s-border-radius;
+  .s-sign-in-panel {
+    border-right: 1px solid #efefef;
+  }
+  .s-sign-up-btn {
+    background: $purple-color;
+    &.x-btn-over {
+      background: $faint-purple-color;
+    }
+  }
   .x-toolbar {
     background: white;
     .x-box-inner {
       background: white;
     }
   }
-  //.s-sing-in-btn
-  //.s-sing-up-btn
 }
