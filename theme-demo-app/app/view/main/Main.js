@@ -235,7 +235,6 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                 cls: 's-compose-btn s-floating-bottom-btn',
                 iconCls: 'fa fa-plus',
                 floating: true,
-                alwaysOnTop: true,
                 shadow: false,
                 renderTo: Ext.getBody(),
                 listeners:{
@@ -259,12 +258,17 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                 cls: 's-encrypt-btn s-floating-bottom-btn',
                 text: 'Encrypt',
                 floating: true,
-                alwaysOnTop: true,
                 shadow: false,
                 hidden: true,
                 renderTo: Ext.getBody(),
                 handler: function(button) {
+                    var htmlEditor = view.composeWindow.down('htmleditor');
+                    var tagfield = view.composeWindow.down('tagfield');
+                    var text = htmlEditor.getValue();
+                    var holders = tagfield.getValue();
+                    debugger
                     //TODO: send create request and fire click event on close composeCloseButton
+                    composeCloseBtn.fireEvent('click', composeCloseBtn);
                 }
             });
         }

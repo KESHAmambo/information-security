@@ -2,4 +2,20 @@
   border: 1px solid $purple-color;
   border-radius: 5px;
   margin: 5px 0;
+  .x-boundlist-item {
+    height: 40px;
+    line-height: 40px;
+    margin: 4px;
+    border: none;
+    border-radius: 5px;
+    color: $purple-color;
+    &.x-boundlist-item-over {
+      background: $pink-color;
+      color: white;
+    }
+    &.x-boundlist-selected {
+      background: $purple-color;
+      color: white;
+    }
+  }
 }

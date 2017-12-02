@@ -129,6 +129,7 @@
 
 .s-floating-bottom-btn {
   @include custom-transition(300ms, transform, box-shadow, border-color, background);
+  z-index: 19010 !important;
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.25) !important;
   position: fixed !important;
   bottom: 56px;

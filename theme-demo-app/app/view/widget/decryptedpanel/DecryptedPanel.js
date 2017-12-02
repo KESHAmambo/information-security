@@ -23,7 +23,7 @@ Ext.define('ThemeDemoApp.view.widget.decryptedpanel.DecryptedPanel', {
                     name: 'creationDate'
                 },
                 {
-                    name: 'decodingDate'
+                    name: 'decryptionDate'
                 },
                 {
                     name: 'confirmed'
@@ -42,11 +42,11 @@ Ext.define('ThemeDemoApp.view.widget.decryptedpanel.DecryptedPanel', {
                 }
             ],
             data: [
-                {title: 'Passport data', creator: 'Lisa', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 1, keepers: 9, permission: true},
-                {title: 'Passport data', creator: 'Bart', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 5, keepers: 9, permission: false},
-                {title: 'Passport data', creator: 'Homer', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 3, keepers: 9, permission: true},
-                {title: 'Passport data', creator: 'Marge', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 8, keepers: 9, permission: true},
-                {title: 'Passport data', creator: 'Maggy', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 5, keepers: 9, permission: true}
+                {title: 'Passport data', creator: 'Lisa', creationDate: '2011/04/22', decryptionDate: '2011/04/22', confirmed: 1, keepers: 9, permission: true},
+                {title: 'Passport data', creator: 'Bart', creationDate: '2011/04/22', decryptionDate: '2011/04/22', confirmed: 5, keepers: 9, permission: false},
+                {title: 'Passport data', creator: 'Homer', creationDate: '2011/04/22', decryptionDate: '2011/04/22', confirmed: 3, keepers: 9, permission: true},
+                {title: 'Passport data', creator: 'Marge', creationDate: '2011/04/22', decryptionDate: '2011/04/22', confirmed: 8, keepers: 9, permission: true},
+                {title: 'Passport data', creator: 'Maggy', creationDate: '2011/04/22', decryptionDate: '2011/04/22', confirmed: 5, keepers: 9, permission: true}
             ]
         });
         me.items = [
@@ -81,10 +81,10 @@ Ext.define('ThemeDemoApp.view.widget.decryptedpanel.DecryptedPanel', {
                             flex: 1
                         },
                         {
-                            text: 'Decoding Date',
+                            text: 'Decryption Date',
                             xtype: 'datecolumn',
                             format:'Y-m-d',
-                            dataIndex: 'decodingDate',
+                            dataIndex: 'decryptionDate',
                             flex: 1
                         },
                         {

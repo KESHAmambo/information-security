@@ -1,0 +1,24 @@
+.x-tagfield-body {
+  .x-tagfield-item {
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    background: $pink-color;
+    color: white;
+    border: none !important;
+    &:hover, &.x-tagfield-item-selected {
+      background: $purple-color;
+      color: white;
+    }
+    .x-tagfield-item-close {
+      background: none;
+      top: 9px;
+      &:before {
+        content: '\f00d';
+        font-family: FontAwesome;
+        color: white;
+        font-size: 12px;
+      }
+    }
+  }
+}

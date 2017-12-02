@@ -100,7 +100,7 @@ Ext.define('ThemeDemoApp.view.widget.createdpanel.CreatedPanel', {
                             flex: 1
                         },
                         {
-                            text: 'Decoding Date',
+                            text: 'Decryption Date',
                             xtype: 'datecolumn',
                             format:'Y-m-d',
                             dataIndex: 'decodingDate',

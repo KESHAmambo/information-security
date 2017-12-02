@@ -1,4 +1,5 @@
 .s-compose-window {
+  z-index: 19000 !important;
   background: transparent;
   .x-window-body {
     background: rgba(255, 255, 255, 0.04);
@@ -7,6 +8,11 @@
       > .x-panel-bodyWrap {
         > .x-panel-body {
           background: $gray-color;
+        }
+      }
+      .x-field {
+        .x-form-trigger-wrap {
+          border: none;
         }
       }
       .x-btn {
