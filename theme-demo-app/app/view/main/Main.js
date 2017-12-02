@@ -34,7 +34,7 @@ Ext.define('ThemeDemoApp.view.main.Main', {
         var menuButtonTpl = me.menuButtonTpl;
         var menuButtonWithItemsTpl = me.menuButtonWithItemsTpl;
 
-        var cardPanel = Ext.create({
+        var cardPanel = me.cardPanel = Ext.create({
             xtype: 'panel',
             cls: 's-main-card-panel',
             flex: 1,
@@ -78,129 +78,154 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                 }
             }
         });
-        var cardLayout = cardPanel.getLayout();
+        var cardLayout = me.cardLayout = cardPanel.getLayout();
 
-        me.items = [
-            {
-                xtype: 'panel',
-                cls: 's-main-panel',
-                margin: '0 80',
-                layout: {
-                    type: 'hbox',
-                    align: 'stretch',
-                    pack: 'top'
-                },
-                tbar: {
-                    cls: 's-main-top-toolbar',
-                    height: 64,
-                    margin: '0 0 16 0',
-                    items: [
-                        {
-                            xtype: 'container',
-                            layout: 'vbox',
-                            items: [
-                                {
-                                    xtype: 'label',
-                                    cls: 's-hello-label',
-                                    html: 'HELLO,',
-                                    margin: '0 0 0 16'
-                                },
-                                {
-                                    xtype: 'label',
-                                    cls: 's-username-label',
-                                    margin: '0 0 0 16',
-                                    bind: {
-                                        html: '{username}'
-                                    }
-                                }
-                            ]
-                        },
-                        '->',
-                        {
-                            xtype: 'label',
-                            cls: 's-day',
-                            html: 'Friday,'
-                        },
-                        {
-                            xtype: 'label',
-                            cls: 's-date',
-                            html: '29 nov'
-                        }
-                    ]
-                },
+        var mainPanel = me.mainPanel = Ext.create({
+            xtype: 'panel',
+            itemId: 'mainPanel',
+            cls: 's-main-panel',
+            margin: '0 80',
+            layout: {
+                type: 'hbox',
+                align: 'stretch',
+                pack: 'top'
+            },
+            tbar: {
+                cls: 's-main-top-toolbar',
+                height: 64,
+                margin: '0 0 16 0',
                 items: [
                     {
-                        xtype: 'panel',
-                        cls: 's-menu-panel',
-                        layout: {
-                            type: 'vbox',
-                            align: 'stretch',
-                            pack: 'top'
-                        },
-                        defaults: {
-                            xtype: 'button',
-                            cls: 's-menu-button',
-                            width: 220,
-                            height: 50,
-                            margin: '0 16 16 0',
-                            toggleGroup: 'menu-buttons',
-                            allowDepress: false
-                        },
+                        xtype: 'container',
+                        layout: 'vbox',
                         items: [
                             {
-                                userCls: 's-decrypted-btn',
-                                html: menuButtonWithItemsTpl.apply({
-                                    text: 'Decrypted',
-                                    iconCls: 'fa fa-unlock-alt',
-                                    count: 10
-                                }),
-                                handler: function(button) {
-                                    cardLayout.setActiveItem(0);
-                                },
-                                pressed: true
+                                xtype: 'label',
+                                cls: 's-hello-label',
+                                html: 'HELLO,',
+                                margin: '0 0 0 16'
                             },
                             {
-                                userCls: 's-encrypted-btn',
-                                html: menuButtonWithItemsTpl.apply({
-                                    text: 'Encrypted',
-                                    iconCls: 'fa fa-lock',
-                                    count: 10
-                                }),
-                                handler: function(button) {
-                                    cardLayout.setActiveItem(1);
-                                }
-                            },
-                            {
-                                userCls: 's-created-btn',
-                                html: menuButtonWithItemsTpl.apply({
-                                    text: 'Created',
-                                    iconCls: 'fa fa-pencil',
-                                    count: 10
-                                }),
-                                handler: function(button) {
-                                    cardLayout.setActiveItem(2);
-                                }
-                            },
-                            {
-                                userCls: 's-settings-btn',
-                                html: menuButtonTpl.apply({
-                                    text: 'Settings',
-                                    iconCls: 'fa fa-cogs',
-                                    count: 10
-                                }),
-                                handler: function(button) {
-                                    cardLayout.setActiveItem(3);
+                                xtype: 'label',
+                                cls: 's-username-label',
+                                margin: '0 0 0 16',
+                                bind: {
+                                    html: '{username}'
                                 }
                             }
                         ]
                     },
-                    cardPanel
+                    '->',
+                    {
+                        xtype: 'label',
+                        cls: 's-day',
+                        html: 'Friday,'
+                    },
+                    {
+                        xtype: 'label',
+                        cls: 's-date',
+                        html: '29 nov'
+                    }
                 ]
-            }
+            },
+            items: [
+                {
+                    xtype: 'panel',
+                    cls: 's-menu-panel',
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch',
+                        pack: 'top'
+                    },
+                    defaults: {
+                        xtype: 'button',
+                        cls: 's-menu-button',
+                        width: 220,
+                        height: 50,
+                        margin: '0 16 16 0',
+                        toggleGroup: 'menu-buttons',
+                        allowDepress: false
+                    },
+                    items: [
+                        {
+                            userCls: 's-decrypted-btn',
+                            html: menuButtonWithItemsTpl.apply({
+                                text: 'Decrypted',
+                                iconCls: 'fa fa-unlock-alt',
+                                count: 10
+                            }),
+                            handler: function(button) {
+                                cardLayout.setActiveItem(0);
+                            },
+                            pressed: true
+                        },
+                        {
+                            userCls: 's-encrypted-btn',
+                            html: menuButtonWithItemsTpl.apply({
+                                text: 'Encrypted',
+                                iconCls: 'fa fa-lock',
+                                count: 10
+                            }),
+                            handler: function(button) {
+                                cardLayout.setActiveItem(1);
+                            }
+                        },
+                        {
+                            userCls: 's-created-btn',
+                            html: menuButtonWithItemsTpl.apply({
+                                text: 'Created',
+                                iconCls: 'fa fa-pencil',
+                                count: 10
+                            }),
+                            handler: function(button) {
+                                cardLayout.setActiveItem(2);
+                            }
+                        },
+                        {
+                            userCls: 's-settings-btn',
+                            html: menuButtonTpl.apply({
+                                text: 'Settings',
+                                iconCls: 'fa fa-cogs',
+                                count: 10
+                            }),
+                            handler: function(button) {
+                                cardLayout.setActiveItem(3);
+                            }
+                        }
+                    ]
+                },
+                cardPanel
+            ]
+        });
+
+        me.items = [
+            mainPanel
         ];
 
         me.callParent(arguments);
     },
+
+    // setCardLayoutActiveItem: function(itemNumber, expandPanel) {
+    //     var me = this;
+    //     if(!expandPanel) {
+    //         var cardPanelHeight = me.mainPanel.getHeight() - 80;
+    //         var cardPanelWidth = me.mainPanel.getWidth() - 236;
+    //         me.cardPanel.animate({
+    //             to: {
+    //                 height: cardPanelHeight,
+    //                 width: cardPanelWidth
+    //             }
+    //         });
+    //     } else {
+    //         me.cardPanel.animate({
+    //             to: {
+    //                 height: 400,
+    //                 width: 300
+    //             }
+    //         });
+    //     }
+    //     var activePanel = me.cardLayout.setActiveItem(itemNumber);
+    // },
 
     listeners: {
         afterrender: function(view) {

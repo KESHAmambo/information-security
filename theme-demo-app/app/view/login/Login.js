@@ -25,6 +25,7 @@ Ext.define('ThemeDemoApp.view.login.Login', {
 
     initComponent: function() {
         var me = this;
+        var viewModel = me.getViewModel();
 
         me.items = [
             {
@@ -37,13 +38,40 @@ Ext.define('ThemeDemoApp.view.login.Login', {
                     pack: 'top'
                 },
                 defaults: {
-                    height: 400,
-                    width: 400
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch',
+                        pack: 'top'
+                    },
+                    bodyPadding: 16,
+                    defaults: {
+                        margin: '0 0 16 0',
+                        width: 300,
+                        labelAlign: 'top'
+                    }
                 },
                 items: [
                     {
                         xtype: 'panel',
                         cls: 's-sign-in-panel',
+                        margin: '0 16 0 0',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                fieldLabel: 'Username',
+                                bind: {
+                                    value: '{signInUsername}'
+                                }
+                            },
+                            {
+                                xtype: 'textfield',
+                                inputType: 'password',
+                                fieldLabel: 'Password',
+                                bind: {
+                                    value: '{signInPassword}'
+                                }
+                            }
+                        ],
                         bbar: {
                             padding: '0 9 16 0',
                             defaults: {
@@ -71,6 +99,31 @@ Ext.define('ThemeDemoApp.view.login.Login', {
                     {
                         xtype: 'panel',
                         cls: 's-sign-up-panel',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                fieldLabel: 'Username',
+                                bind: {
+                                    value: '{signUpUsername}'
+                                }
+                            },
+                            {
+                                xtype: 'textfield',
+                                inputType: 'password',
+                                fieldLabel: 'Password',
+                                bind: {
+                                    value: '{signUpPassword}'
+                                }
+                            },
+                            {
+                                xtype: 'textfield',
+                                inputType: 'password',
+                                fieldLabel: 'Confirm password',
+                                bind: {
+                                    value: '{signUpPasswordConfirm}'
+                                }
+                            }
+                        ],
                         bbar: {
                             padding: '0 9 16 0',
                             defaults: {
