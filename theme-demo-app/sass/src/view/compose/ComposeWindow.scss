@@ -1,0 +1,26 @@
+.s-compose-window {
+  background: transparent;
+  .x-window-body {
+    background: rgba(255, 255, 255, 0.04);
+    .s-compose-window-main-panel {
+      box-shadow: $s-window-box-shadow;
+      > .x-panel-bodyWrap {
+        > .x-panel-body {
+          background: $gray-color;
+        }
+      }
+      .x-btn {
+        &.x-btn-over, &.x-btn-pressed {
+          background: $s-dark-gray-color;
+        }
+      }
+      .x-html-editor-container {
+        border-radius: $s-border-radius;
+        border: none;
+        .x-htmleditor-iframe {
+          border-radius: $s-border-radius;
+        }
+      }
+    }
+  }
+}

@@ -86,12 +86,6 @@
         background: $pink-color;
       }
     }
-    &.s-compose-btn {
-      border-color: $purple-color;
-      .s-items {
-        background: $purple-color;
-      }
-    }
     &.s-settings-btn {
       border-color: $faint-purple-color;
       .s-items {
@@ -133,32 +127,45 @@
   border-style: solid;
 }
 
-.s-compose-btn {
+.s-floating-bottom-btn {
   @include custom-transition(300ms, transform, box-shadow, border-color, background);
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.25) !important;
   position: fixed !important;
   bottom: 56px;
-  right: 44px;
   left: auto;
   top: auto;
   height: 52px;
-  width: 52px;
-  border-radius: 50%;
-  border: none;
-  background: $pink-color !important;
-  &.x-btn-over, &.x-btn-pressed {
-    background: $faint-purple-color !important;
-  }
-  &.x-btn-over {
-    .x-btn-icon-el {
-      transform: rotate(360deg);
-    }
-  }
+  border-radius: 26px;
   &.x-btn-pressed {
     box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.25) !important;
   }
-  .x-btn-icon-el {
-    @include custom-transition(300ms, transform);
-    font-size: 18px;
+  &.s-compose-btn {
+    right: 44px;
+    width: 52px;
+    &.x-btn-over {
+      .x-btn-icon-el {
+        transform: rotate(360deg);
+      }
+    }
+    &.s-close-window-btn {
+      .x-btn-icon-el {
+        transform: rotate(315deg);
+      }
+      &.x-btn-over {
+        background: $s-red-color;
+      }
+    }
+    .x-btn-icon-el {
+      @include custom-transition(300ms, transform);
+      font-size: 18px;
+    }
+  }
+  &.s-encrypt-btn {
+    right: 112px;
+    width: 220px;
+    background: $purple-color;
+    &.x-btn-over {
+      background: $faint-purple-color;
+    }
   }
 }

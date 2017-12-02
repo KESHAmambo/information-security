@@ -229,14 +229,43 @@ Ext.define('ThemeDemoApp.view.main.Main', {
 
     listeners: {
         afterrender: function(view) {
-            var composeCloseButton = Ext.create({
+            var composeCloseBtn = Ext.create({
                 xtype: 'button',
                 itemId: 'composeBtn',
-                cls: 's-compose-btn',
+                cls: 's-compose-btn s-floating-bottom-btn',
                 iconCls: 'fa fa-plus',
                 floating: true,
+                alwaysOnTop: true,
                 shadow: false,
-                renderTo: Ext.getBody()
+                renderTo: Ext.getBody(),
+                listeners:{
+                    click: function(button) {
+                        if(view.composeWindow) {
+                            view.composeWindow.destroy();
+                            delete view.composeWindow;
+                        } else {
+                            view.composeWindow = Ext.create({
+                                xtype: 'compose-window'
+                            });
+                        }
+                        encryptBtn.setHidden(!view.composeWindow);
+                        button.toggleCls('s-close-window-btn');
+                    }
+                }
+            });
+            var encryptBtn = Ext.create({
+                xtype: 'button',
+                itemId: 'encryptBtn',
+                cls: 's-encrypt-btn s-floating-bottom-btn',
+                text: 'Encrypt',
+                floating: true,
+                alwaysOnTop: true,
+                shadow: false,
+                hidden: true,
+                renderTo: Ext.getBody(),
+                handler: function(button) {
+                    //TODO: send create request and fire click event on close composeCloseButton
+                }
             });
         }
     }
