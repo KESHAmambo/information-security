@@ -7,7 +7,6 @@ Ext.define('ThemeDemoApp.view.widget.createdpanel.CreatedPanel', {
 
     componentCls: 'created-panel',
 
-    //temp comment
     layout: 'fit',
     initComponent: function() {
         var me = this;
