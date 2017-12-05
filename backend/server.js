@@ -14,26 +14,14 @@ http.createServer(function (req, res) {
     } else {
         console.log('backend-request: ', req.url);
         var requestPath = req.url.slice(0, req.url.indexOf('?'));
-        //var urlWrapper = new urlManager.URL('http://localhost' + req.url);
-        var username;
-        var password;
+
         var responseText;
         switch (requestPath) {
             case '/api/signin':
                 requestManager.signIn(req, res);
                 break;
             case '/api/signup':
-                username = urlWrapper.searchParams.get('username');
-                password = urlWrapper.searchParams.get('password');
-                var user = new User({user_name: username, password: password});
-
-                user.save(function(err, result) {
-                    if(err){
-                        res.end("Error");
-                    } else {
-                        res.end(result);
-                    }
-                });
+                requestManager.signUp(req, res);
                 break;
             default:
                 console.log('Unhandled request url: ', requestPath);
