@@ -13,15 +13,23 @@ http.createServer(function (req, res) {
         sendFile(pathToViewFile, res);
     } else {
         console.log('backend-request: ', req.url);
-        var requestPath = req.url.slice(0, req.url.indexOf('?'));
-
+        var requestPath = req.url;
+        if(req.url.indexOf('?') > -1) {
+            requestPath = req.url.slice(0, req.url.indexOf('?'));
+        }
         var responseText;
         switch (requestPath) {
+            case '/api/createdTexts':
+                requestManager.createdTexts(req, res);
+                break;
             case '/api/signin':
                 requestManager.signIn(req, res);
                 break;
             case '/api/signup':
                 requestManager.signUp(req, res);
+                break;
+            case '/api/saveText':
+                requestManager.saveText(req, res);
                 break;
             default:
                 console.log('Unhandled request url: ', requestPath);

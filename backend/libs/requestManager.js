@@ -1,5 +1,7 @@
 var urlManager = require('url');
 var User = require('../models/users').User;
+var Text = require('../models/texts').Text;
+var UserPermissions = require('../models/user_permission').UserPermissions;
 
 function RequestManager() {};
 
@@ -42,11 +44,34 @@ requestManager.signUp = function(req, res){
 
     user.save(function(err, result) {
         if(err){
-            res.end("Error :c an't save new user");
+            res.end("Error : can't save new user");
         } else {
             res.end("Successful registration!");
         }
     });
 };
+
+requestManager.createdTexts = function (req, res) {
+    Text.find({}, function(err, texts) {
+        var textMap = {};
+        texts.forEach(function (text) {
+            textMap[text._id] = text;
+        });
+        res.end(JSON.stringify({textMap}));
+    });
+};
+
+requestManager.saveText = function (req, res) {
+    urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var now = new Date();
+    var text = new Text({title: urlWrapper.searchParams.get('title'), creator_id: urlWrapper.searchParams.get('creator_id'), creation_date: now});
+    text.save(function (err, result) {
+        if(err){
+            res.end("Error : can't save new text");
+        } else {
+            res.end("Add new text: ", text.id);
+        }
+    });
+}
 
 module.exports = requestManager;
