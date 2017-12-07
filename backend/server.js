@@ -2,6 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var requestManager = require('./libs/requestManager');
 var User = require('./models/users').User;
+var urlManager = require('url');
 
 http.createServer(function (req, res) {
     var viewReg = /^\/api\/.*$/;
@@ -14,7 +15,7 @@ http.createServer(function (req, res) {
     } else {
         console.log('backend-request: ', req.url);
         var requestPath = req.url.slice(0, req.url.indexOf('?'));
-        //var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+        var urlWrapper = new urlManager.URL('http://localhost' + req.url);
         var username;
         var password;
         var responseText;
