@@ -6,14 +6,11 @@ var UserPermissions = require('../models/user_permission').UserPermissions;
 function RequestManager() {}
 
 var requestManager = new RequestManager();
-var urlWrapper;
-var username;
-var password;
 
 requestManager.signIn = function(req, res){
-    urlWrapper = new urlManager.URL('http://localhost' + req.url);
-    username = urlWrapper.searchParams.get('username');
-    password = urlWrapper.searchParams.get('password');
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var username = urlWrapper.searchParams.get('username');
+    var password = urlWrapper.searchParams.get('password');
     var responseText;
 
     User.find({user_name: username}, function(err, users) {
@@ -37,16 +34,22 @@ requestManager.signIn = function(req, res){
 };
 
 requestManager.signUp = function(req, res){
-    urlWrapper = new urlManager.URL('http://localhost' + req.url);
-    username = urlWrapper.searchParams.get('username');
-    password = urlWrapper.searchParams.get('password');
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var username = urlWrapper.searchParams.get('username');
+    var password = urlWrapper.searchParams.get('password');
     var user = new User({user_name: username, password: password});
 
-    user.save(function(err, result) {
+    user.save(function(err, user) {
         if(err){
-            res.end("Error : can't save new user");
+            res.end(JSON.stringify({
+                success: false
+            }));
         } else {
-            res.end("Successful registration!");
+            res.end(JSON.stringify({
+                success: true,
+                username: username,
+                id: user.id
+            }));
         }
     });
 };
@@ -62,7 +65,7 @@ requestManager.createdTexts = function (req, res) {
 };
 
 requestManager.saveText = function (req, res) {
-    urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
     var now = new Date();
     var text = new Text({title: urlWrapper.searchParams.get('title'), creator_id: urlWrapper.searchParams.get('creator_id'), creation_date: now});
     text.save(function (err, result) {
