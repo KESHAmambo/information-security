@@ -15,8 +15,16 @@ var output = {
 	users: [
 		{
 			id: 'id',
-			keys: [
-				'key1',
+			bingIntegers: [
+				{
+					value: '0xf87db6f54',
+					shares: [
+						{
+							//share object for this user for this bigInteger
+						},
+						//..
+					]
+				},
 				//...
 			]
 		},
