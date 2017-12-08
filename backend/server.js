@@ -2,7 +2,6 @@ var http = require('http');
 var fs = require('fs');
 var requestManager = require('./libs/requestManager');
 var User = require('./models/users').User;
-var urlManager = require('url');
 
 http.createServer(function (req, res) {
     var viewReg = /^\/api\/.*$/;
@@ -14,27 +13,23 @@ http.createServer(function (req, res) {
         sendFile(pathToViewFile, res);
     } else {
         console.log('backend-request: ', req.url);
-        var requestPath = req.url.slice(0, req.url.indexOf('?'));
-        var urlWrapper = new urlManager.URL('http://localhost' + req.url);
-        var username;
-        var password;
+        var requestPath = req.url;
+        if(req.url.indexOf('?') > -1) {
+            requestPath = req.url.slice(0, req.url.indexOf('?'));
+        }
         var responseText;
         switch (requestPath) {
+            case '/api/createdTexts':
+                requestManager.createdTexts(req, res);
+                break;
             case '/api/signin':
                 requestManager.signIn(req, res);
                 break;
             case '/api/signup':
-                username = urlWrapper.searchParams.get('username');
-                password = urlWrapper.searchParams.get('password');
-                var user = new User({user_name: username, password: password});
-
-                user.save(function(err, result) {
-                    if(err){
-                        res.end("Error");
-                    } else {
-                        res.end(result);
-                    }
-                });
+                requestManager.signUp(req, res);
+                break;
+            case '/api/saveText':
+                requestManager.saveText(req, res);
                 break;
             default:
                 console.log('Unhandled request url: ', requestPath);
