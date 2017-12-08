@@ -1,9 +1,9 @@
 var urlManager = require('url');
 var User = require('../models/users').User;
-var Text = require('../models/texts').Text;
+var Text = require('../models/text').Text;
 var UserPermissions = require('../models/user_permission').UserPermissions;
 
-function RequestManager() {};
+function RequestManager() {}
 
 var requestManager = new RequestManager();
 var urlWrapper;
@@ -57,7 +57,7 @@ requestManager.createdTexts = function (req, res) {
         texts.forEach(function (text) {
             textMap[text._id] = text;
         });
-        res.end(JSON.stringify({textMap}));
+        res.end(JSON.stringify(textMap));
     });
 };
 
@@ -72,6 +72,6 @@ requestManager.saveText = function (req, res) {
             res.end("Add new text: ", text.id);
         }
     });
-}
+};
 
 module.exports = requestManager;
