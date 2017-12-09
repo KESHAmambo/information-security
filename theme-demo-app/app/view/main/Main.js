@@ -103,7 +103,7 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                                 xtype: 'label',
                                 cls: 's-hello-label',
                                 html: 'HELLO,',
-                                margin: '0 0 0 16'
+                                margin: '0 0 0 17'
                             },
                             {
                                 xtype: 'label',
@@ -119,12 +119,17 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                     {
                         xtype: 'label',
                         cls: 's-day',
+                        bind: {
+                            html: '{currentDay}'
+                        },
                         html: 'Friday,'
                     },
                     {
                         xtype: 'label',
                         cls: 's-date',
-                        html: '29 nov'
+                        bind: {
+                            html: '{currentDate}'
+                        }
                     }
                 ]
             },
@@ -231,7 +236,7 @@ Ext.define('ThemeDemoApp.view.main.Main', {
         afterrender: function(view) {
             var composeCloseBtn = Ext.create({
                 xtype: 'button',
-                itemId: 'composeBtn',
+                itemId: 'composeCloseBtn',
                 cls: 's-compose-btn s-floating-bottom-btn',
                 iconCls: 'fa fa-plus',
                 floating: true,

@@ -30,6 +30,7 @@ Ext.define('ThemeDemoApp.view.login.Login', {
         me.items = [
             {
                 xtype: 'panel',
+                viewModel: viewModel,
                 cls: 's-login-panel',
                 region: 'center',
                 layout: {
@@ -85,11 +86,18 @@ Ext.define('ThemeDemoApp.view.login.Login', {
                                     cls: 's-sign-in-btn',
                                     text: 'Sing In',
                                     handler: function(button) {
-                                        //TODO: authorizatize
-                                        // var mainContainer = Ext.ComponentQuery.query('main-container')[0];
-                                        me.destroy();
-                                        Ext.create({
-                                            xtype: 'app-main'
+                                        Ext.Ajax.request({
+                                            method: 'GET',
+                                            url: RequestHelper.getBaseUrl() + 'api/signin',
+                                            params: {
+                                                username: viewModel.get('signInUsername'),
+                                                password: viewModel.get('signInPassword')
+                                            },
+                                            success: me.onSignSuccess.bind(me),
+                                            failure: function(response) {
+                                                Ext.toast('Invalid credentials!', undefined, 'tr');
+                                                console.log('server-side failure with status code ' + response.status);
+                                            }
                                         });
                                     }
                                 }
@@ -137,8 +145,29 @@ Ext.define('ThemeDemoApp.view.login.Login', {
                                     cls: 's-sign-up-btn',
                                     text: 'Sing Up',
                                     handler: function(button) {
-                                        //TODO: registration
-
+                                        var password = viewModel.get('signUpPassword');
+                                        var passwordConfirm = viewModel.get('signUpPasswordConfirm');
+                                        if(password === passwordConfirm) {
+                                            Ext.Ajax.request({
+                                                method: 'GET',
+                                                url: RequestHelper.getBaseUrl() + 'api/signup',
+                                                params: {
+                                                    username: viewModel.get('signUpUsername'),
+                                                    password: password
+                                                },
+                                                success: me.onSignSuccess.bind(me),
+                                                failure: function(response) {
+                                                    if(response.status === 409) {
+                                                        Ext.toast('User with this name already exists!', undefined, 'tr');
+                                                    } else {
+                                                        Ext.toast('Server error!', undefined, 'tr');
+                                                    }
+                                                    console.log('server-side failure with status code ' + response.status);
+                                                }
+                                            });
+                                        } else {
+                                            Ext.toast('Passwords are not equal!', undefined, 'tr');
+                                        }
                                     }
                                 }
                             ]
@@ -149,5 +178,25 @@ Ext.define('ThemeDemoApp.view.login.Login', {
         ];
 
         me.callParent(arguments);
+    },
+
+    onSignSuccess: function(response) {
+        var responseText = Ext.decode(response.responseText);
+        this.destroy();
+        var mainView = Ext.create({
+            xtype: 'app-main',
+            listeners: {
+                render: {
+                    fn: function() {
+                        var mainViewModel = this.getViewModel();
+                        mainViewModel.set({
+                            username: responseText.username,
+                            userId: responseText.id
+                        });
+                    },
+                    options: {single: true}
+                }
+            }
+        });
     }
 });

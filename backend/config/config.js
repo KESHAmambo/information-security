@@ -1,7 +1,7 @@
 var config = {
     port : 27015,
     mongoose : {
-        uri : 'mongodb://localhost',
+        uri : 'mongodb://localhost/crypta',
         options : {
             server : {
                 socketOptions : {

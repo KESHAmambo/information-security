@@ -28,9 +28,9 @@ Ext.define('ThemeDemoApp.view.widget.settingspanel.SettingsPanel', {
                     text: 'Sign Out',
                     handler: function(button) {
                         var mainView = Ext.ComponentQuery.query('app-main')[0];
-                        var composeBtn = Ext.ComponentQuery.query('button[itemId="composeBtn"]')[0];
+                        var composeCloseBtn = Ext.ComponentQuery.query('button[itemId="composeCloseBtn"]')[0];
                         mainView.destroy();
-                        composeBtn.destroy();
+                        composeCloseBtn.destroy();
                         Ext.create({
                             xtype: 'login'
                         });

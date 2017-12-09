@@ -23,6 +23,7 @@ requestManager.signIn = function(req, res){
                     username: username,
                     id: user.id
                 });
+                res.statusCode = 200;
                 res.end(responseText);
             } else {
                 res.end("Invalid credentials");
@@ -41,12 +42,10 @@ requestManager.signUp = function(req, res){
 
     user.save(function(err, user) {
         if(err){
-            res.end(JSON.stringify({
-                success: false
-            }));
+            res.statusCode = 409;
+            res.end();
         } else {
             res.end(JSON.stringify({
-                success: true,
                 username: username,
                 id: user.id
             }));
@@ -54,7 +53,7 @@ requestManager.signUp = function(req, res){
     });
 };
 
-requestManager.createdTexts = function (req, res) {
+requestManager.getCreatedTexts = function (req, res) {
     Text.find({}, function(err, texts) {
         var textMap = {};
         texts.forEach(function (text) {
@@ -67,9 +66,11 @@ requestManager.createdTexts = function (req, res) {
 requestManager.saveText = function (req, res) {
     var urlWrapper = new urlManager.URL('http://localhost' + req.url);
     var now = new Date();
+
     var text = new Text({title: urlWrapper.searchParams.get('title'), creator_id: urlWrapper.searchParams.get('creator_id'), creation_date: now});
     text.save(function (err, result) {
         if(err){
+            res.statusCode = 500;
             res.end("Error : can't save new text");
         } else {
             res.end("Add new text: ", text.id);

@@ -6,6 +6,21 @@ Ext.define('ThemeDemoApp.view.main.MainViewModel', {
     alias: 'viewmodel.main',
 
     data: {
-        username: 'Arkady'
+        username: undefined,
+        id: undefined
+    },
+    formulas: {
+        currentDay: {
+            single: true,
+            get: function () {
+                return Ext.Date.format(new Date(), 'l, ');
+            }
+        },
+        currentDate: {
+            single: true,
+            get: function () {
+                return Ext.Date.format(new Date(), 'd M');
+            }
+        }
     }
 });

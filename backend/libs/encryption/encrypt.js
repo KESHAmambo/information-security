@@ -24,7 +24,7 @@ String.prototype.hexDecode = function(){
 };
 
 var Encryptor = {};
-Encryptor.sharing = function (input) {
+Encryptor.makeShares = function (input) {
     var str = input.text;
     var numOfUsers = input.numshares;
     var numOfUsersForEncryption = input.threshold;
@@ -94,7 +94,7 @@ Encryptor.decrypt = function (output) {
 // TEST-----------------------------------------------------------------------------------
 if(devMode) {
     var beforeEncrypt = Date.now();
-    var encryptedText = Encryptor.sharing(input);
+    var encryptedText = Encryptor.makeShares(input);
     console.log('Encrypted text: ', encryptedText);
     console.log('Share: ', JSON.stringify(encryptedText.users[2].shares[0]));
     var afterEncrypt = Date.now();

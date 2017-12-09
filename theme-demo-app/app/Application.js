@@ -13,12 +13,12 @@ Ext.define('ThemeDemoApp.Application', {
     ],
     
     launch: function () {
-        Ext.create({
-            xtype: 'app-main'
-        });
         // Ext.create({
-        //     xtype: 'login'
+        //     xtype: 'app-main'
         // });
+        Ext.create({
+            xtype: 'login'
+        });
     },
 
     onAppUpdate: function () {
