@@ -19,7 +19,7 @@ var schema = new Schema({
     decrypted_text: {
         type: String
     },
-    decrypted_date: {
+    decryption_date: {
         type: Date
     }
 });

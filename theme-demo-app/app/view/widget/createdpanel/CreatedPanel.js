@@ -10,8 +10,16 @@ Ext.define('ThemeDemoApp.view.widget.createdpanel.CreatedPanel', {
     layout: 'fit',
     initComponent: function() {
         var me = this;
+        var viewModel = me.getViewModel();
 
-        var createdStore = Ext.create('Ext.data.Store', {
+        var createdStore = me.createdStore = Ext.create('Ext.data.Store', {
+            proxy: {
+                type: 'ajax',
+                url: RequestHelper.getBaseUrl() + 'api/createdTexts',
+                reader: {
+                    type: 'json'
+                }
+            },
             fields: [
                 {
                     name: 'title'
@@ -38,16 +46,16 @@ Ext.define('ThemeDemoApp.view.widget.createdpanel.CreatedPanel', {
                     }
                 }
             ],
-            data: [
-                {title: 'Passport data', share: true, creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 9, keepers: 9, permission: true},
-                {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 5, keepers: 9, permission: false},
-                {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 3, keepers: 9, permission: false},
-                {title: 'Passport data', share: true, creationDate: '2011/04/22', decodingDate: '', confirmed: 8, keepers: 9, permission: true},
-                {title: 'Passport data', share: true, creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 9, keepers: 9, permission: true},
-                {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 3, keepers: 9, permission: false},
-                {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 3, keepers: 9, permission: false},
-                {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 9, keepers: 9, permission: false}
-            ]
+            // data: [
+            //     {title: 'Passport data', share: true, creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 9, keepers: 9, permission: true},
+            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 5, keepers: 9, permission: false},
+            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 3, keepers: 9, permission: false},
+            //     {title: 'Passport data', share: true, creationDate: '2011/04/22', decodingDate: '', confirmed: 8, keepers: 9, permission: true},
+            //     {title: 'Passport data', share: true, creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 9, keepers: 9, permission: true},
+            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 3, keepers: 9, permission: false},
+            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 3, keepers: 9, permission: false},
+            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 9, keepers: 9, permission: false}
+            // ]
         });
         me.items = [
             {
@@ -58,6 +66,7 @@ Ext.define('ThemeDemoApp.view.widget.createdpanel.CreatedPanel', {
                 },
                 enableColumnHide : false,
                 sortableColumns: false,
+                emptyText: 'No items',
                 columns: {
                     defaults: {
                         align: 'start'
@@ -115,5 +124,14 @@ Ext.define('ThemeDemoApp.view.widget.createdpanel.CreatedPanel', {
         ];
 
         me.callParent(arguments);
+    },
+
+    listeners: {
+        activate: function(view) {
+            view.createdStore.getProxy().setExtraParams({
+                userId: view.getViewModel().get('userId')
+            });
+            view.createdStore.load();
+        }
     }
 });

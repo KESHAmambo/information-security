@@ -58,6 +58,7 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptedPanel', {
                 },
                 enableColumnHide : false,
                 sortableColumns: false,
+                emptyText: 'No items',
                 columns: {
                     defaults: {
                         align: 'start'

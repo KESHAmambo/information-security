@@ -7,7 +7,7 @@ Ext.define('ThemeDemoApp.view.main.MainViewModel', {
 
     data: {
         username: undefined,
-        id: undefined
+        userId: undefined
     },
     formulas: {
         currentDay: {

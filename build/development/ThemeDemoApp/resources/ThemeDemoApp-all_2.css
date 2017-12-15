@@ -4852,6 +4852,10 @@
     font-family: monospace !important;
     color: #643fac;
 }
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/src/LoadMask.scss:2 */
+.x-mask.x-focus {
+    border: none;
+}
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/src/Component.scss:15 */
 .x-btn {
     -webkit-transition-property: background-color, border-color, box-shadow;

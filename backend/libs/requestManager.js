@@ -28,9 +28,11 @@ requestManager.signIn = function(req, res){
                 res.statusCode = 200;
                 res.end(responseText);
             } else {
+                res.statusCode = 403;
                 res.end("Invalid credentials");
             }
         } else {
+            res.statusCode = 403;
             res.end("Invalid credentials");
         }
     });
@@ -56,12 +58,39 @@ requestManager.signUp = function(req, res){
 };
 
 requestManager.getCreatedTexts = function (req, res) {
-    Text.find({}, function(err, texts) {
-        var textMap = {};
-        texts.forEach(function (text) {
-            textMap[text._id] = text;
-        });
-        res.end(JSON.stringify(textMap));
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var userId = urlWrapper.searchParams.get('userId');
+
+    Text.find({creator_id: userId}, function(err, texts) {
+        var textsCount = texts.length;
+        if(textsCount > 0) {
+            createdTexts = [];
+            texts.forEach(function (text) {
+                UserTextShare.find({text_id: text.id}, function(err, usersShares) {
+                    var userHasShare = usersShares.some(function(item) {
+                        return item.user_id === userId;
+                    });
+                    var confirmed = usersShares.filter(function(item) {
+                        return usersShares.permission
+                    }).length;
+                    createdTexts.push({
+                        title: text.title,
+                        creationDate: text.creation_date,
+                        decodingDate: text.decryption_date,
+                        keepers: usersShares.length,
+                        confirmed: confirmed,
+                        share: userHasShare
+                    });
+
+                    textsCount--;
+                    if(textsCount === 0) {
+                        res.end(JSON.stringify(createdTexts));
+                    }
+                })
+            });
+        } else {
+            res.end(JSON.stringify([]));
+        }
     });
 };
 

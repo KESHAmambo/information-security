@@ -95,7 +95,12 @@ Ext.define('ThemeDemoApp.view.login.Login', {
                                             },
                                             success: me.onSignSuccess.bind(me),
                                             failure: function(response) {
-                                                Ext.toast('Invalid credentials!', undefined, 'tr');
+                                                Ext.toast({
+                                                    html: 'Invalid credentials!',
+                                                    title: 'Error',
+                                                    userCls: 's-error-toast',
+                                                    align: 'tr'
+                                                });
                                                 console.log('server-side failure with status code ' + response.status);
                                             }
                                         });
@@ -158,9 +163,19 @@ Ext.define('ThemeDemoApp.view.login.Login', {
                                                 success: me.onSignSuccess.bind(me),
                                                 failure: function(response) {
                                                     if(response.status === 409) {
-                                                        Ext.toast('User with this name already exists!', undefined, 'tr');
+                                                        Ext.toast({
+                                                            html: 'User with this name already exists!',
+                                                            title: 'Error',
+                                                            userCls: 's-error-toast',
+                                                            align: 'tr'
+                                                        });
                                                     } else {
-                                                        Ext.toast('Server error!', undefined, 'tr');
+                                                        Ext.toast({
+                                                            html: 'Server error!',
+                                                            title: 'Error',
+                                                            userCls: 's-error-toast',
+                                                            align: 'tr'
+                                                        });
                                                     }
                                                     console.log('server-side failure with status code ' + response.status);
                                                 }

@@ -31,6 +31,7 @@ Ext.define('ThemeDemoApp.view.main.Main', {
 
     initComponent: function() {
         var me = this;
+        var viewModel = me.getViewModel();
         var menuButtonTpl = me.menuButtonTpl;
         var menuButtonWithItemsTpl = me.menuButtonWithItemsTpl;
 
@@ -44,6 +45,10 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                 deferredRender: true
             },
             defaults: {
+                viewModel: {
+                    type: 'default',
+                    parent: viewModel
+                },
                 margin: '0 0 0 5',
                 bodyPadding: '16 16 16 11',
                 listeners: {

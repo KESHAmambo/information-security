@@ -80,9 +80,6 @@ function onPostRequest(requestPath, req, res) {
 
 function onGetRequest(requestPath, req, res) {
     switch (requestPath) {
-        case '/api/getCreatedTexts':
-            requestManager.getCreatedTexts(req, res);
-            break;
         case '/api/signin':
             requestManager.signIn(req, res);
             break;
@@ -91,6 +88,9 @@ function onGetRequest(requestPath, req, res) {
             break;
         case '/api/users':
             requestManager.getUsers(req, res);
+            break;
+        case '/api/createdTexts':
+            requestManager.getCreatedTexts(req, res);
             break;
         default:
             console.log('Unhandled request url: ', requestPath);
