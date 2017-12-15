@@ -69,6 +69,9 @@ function onPostRequest(requestPath, req, res) {
             case '/api/saveText':
                 requestManager.saveText(req, res, body);
                 break;
+            case '/api/givePermission':
+                requestManager.givePermission(req, res, body);
+                break;
             default:
                 console.log('Unhandled request url: ', requestPath);
                 res.statusCode = 404;
@@ -94,6 +97,15 @@ function onGetRequest(requestPath, req, res) {
             break;
         case '/api/encryptedTexts':
             requestManager.getEncryptedTexts(req, res);
+            break;
+        case '/api/decryptedTexts':
+            requestManager.getDecryptedTexts(req, res);
+            break;
+        case '/api/textsCount':
+            requestManager.getTextsCount(req, res);
+            break;
+        case '/api/decryptedText':
+            requestManager.getTextDecryptedValue(req, res);
             break;
         default:
             console.log('Unhandled request url: ', requestPath);

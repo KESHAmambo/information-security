@@ -49,7 +49,6 @@ encryptor.makeShares = function (input) {
 
     for (var t = 0; t < numOfUsers; t++) {
         var user = {
-            id: 0,
             shares: []
         };
         output.users.push(user);

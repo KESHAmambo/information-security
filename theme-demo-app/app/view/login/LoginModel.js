@@ -6,10 +6,10 @@ Ext.define('ThemeDemoApp.view.login.LoginModel', {
     alias: 'viewmodel.login',
 
     data: {
-        signInUsername: 'kesha',
-        signInPassword: '12345',
-        signUpUsername: 'kesha',
-        signUpPassword: '12345',
-        signUpPasswordConfirm: '12345'
+        signInUsername: undefined,
+        signInPassword: undefined,
+        signUpUsername: undefined,
+        signUpPassword: undefined,
+        signUpPasswordConfirm: undefined
     }
 });

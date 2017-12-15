@@ -5,6 +5,7 @@ var User = require('../models/user').User;
 var Text = require('../models/text').Text;
 var UserTextShare = require('../models/userTextShare').UserTextShare;
 var encryptor = require('../libs/encryption/encrypt');
+var BigInteger = require('../libs/encryption/biginteger');
 
 function RequestManager() {}
 
@@ -86,9 +87,45 @@ requestManager.getCreatedTexts = function (req, res) {
 
                     textsCount--;
                     if(textsCount === 0) {
+                        sortTexts(createdTexts);
                         res.end(JSON.stringify(createdTexts));
                     }
                 })
+            });
+        } else {
+            res.end(JSON.stringify([]));
+        }
+    });
+};
+
+requestManager.getDecryptedTexts = function(req, res) {
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var userId = urlWrapper.searchParams.get('userId');
+
+    UserTextShare.find({user_id: userId}, function (err, userShares) {
+        if (userShares.length > 0) {
+            var decryptedTextIds = [];
+            userShares.forEach(function (item) {
+                decryptedTextIds.push(new ObjectID(item.text_id));
+                var textsCount = decryptedTextIds.length;
+                Text.where('_id').in(decryptedTextIds).exec(function (err, texts) {
+                    textsCount--;
+                    if (textsCount === 0) {
+                        var decryptedTexts = texts.filter(function(item) {
+                            return !!item.decryption_date;
+                        });
+                        decryptedTexts = decryptedTexts.map(function(item) {
+                            return {
+                                textId: item.id,
+                                title: item.title,
+                                creationDate: item.creation_date,
+                                decryptionDate: item.decryption_date
+                            }
+                        });
+                        sortTexts(decryptedTexts);
+                        res.end(JSON.stringify(decryptedTexts));
+                    }
+                });
             });
         } else {
             res.end(JSON.stringify([]));
@@ -101,17 +138,17 @@ requestManager.getEncryptedTexts = function(req, res) {
     var userId = urlWrapper.searchParams.get('userId');
 
     UserTextShare.find({user_id: userId}, function(err, userShares) {
-        var textsPermissions = [];
-        var textsIds = [];
-        userShares.forEach(function(item) {
-            textsPermissions.push({
-                textId: item.text_id,
-                permission: item.permission
-            });
-            textsIds.push(new ObjectID(item.text_id));
+        if(userShares.length > 0) {
+            var textsPermissions = [];
+            var textsIds = [];
+            userShares.forEach(function(item) {
+                textsPermissions.push({
+                    textId: item.text_id,
+                    permission: item.permission
+                });
+                textsIds.push(new ObjectID(item.text_id));
 
-            var textsCount = textsIds.length;
-            if(textsCount > 0) {
+                var textsCount = textsIds.length;
                 Text.where('_id').in(textsIds).exec(function(err, texts) {
                     // counter to react only on one callback(callbacks are for each found item)
                     textsCount--;
@@ -121,39 +158,77 @@ requestManager.getEncryptedTexts = function(req, res) {
                             return !item.decryption_date;
                         });
                         textsCount = texts.length;
-                        texts.forEach(function (text) {
-                            UserTextShare.find({text_id: text.id}, function(err, usersShares) {
-                                var userSelfPermission = usersShares.some(function(item) {
-                                    return (item.user_id === userId && item.permission);
-                                });
-                                var confirmed = usersShares.filter(function(item) {
-                                    return item.permission;
-                                }).length;
-                                encryptedTexts.push({
-                                    textId: text.id,
-                                    title: text.title,
-                                    creationDate: text.creation_date,
-                                    keepers: usersShares.length,
-                                    confirmed: confirmed,
-                                    permission: userSelfPermission
-                                });
+                        if(textsCount > 0) {
+                            texts.forEach(function (text) {
+                                UserTextShare.find({text_id: text.id}, function(err, usersShares) {
+                                    var userSelfPermission = usersShares.some(function(item) {
+                                        return (item.user_id === userId && item.permission);
+                                    });
+                                    var confirmed = usersShares.filter(function(item) {
+                                        return item.permission;
+                                    }).length;
+                                    encryptedTexts.push({
+                                        textId: text.id,
+                                        title: text.title,
+                                        creationDate: text.creation_date,
+                                        keepers: usersShares.length,
+                                        confirmed: confirmed,
+                                        permission: userSelfPermission
+                                    });
 
-                                textsCount--;
-                                if(textsCount === 0) {
-                                    res.end(JSON.stringify(encryptedTexts));
-                                }
-                            })
-                        });
+                                    textsCount--;
+                                    if(textsCount === 0) {
+                                        sortTexts(encryptedTexts);
+                                        res.end(JSON.stringify(encryptedTexts));
+                                    }
+                                })
+                            });
+                        } else {
+                            res.end(JSON.stringify([]));
+                        }
                     }
-                })
-            } else {
-                res.end(JSON.stringify([]));
-            }
-            // Text.find({_id: {'$in': textsIds}}, function(err, texts) {
-            //
-            //     res.end(JSON.stringify([]));
-            // })
-        })
+                });
+            });
+        } else {
+            res.end(JSON.stringify([]));
+        }
+    });
+};
+
+requestManager.givePermission = function(req, res, body) {
+    Text.findOne({_id: body.textId}, function(err, text) {
+        if(text.decryption_date) {
+            res.statusCode = 409;
+            res.end();
+        } else {
+            UserTextShare.findOne({user_id: body.userId, text_id: body.textId}, function(err, userShare) {
+                userShare.permission = body.permission;
+                if(body.permission) {
+                    UserTextShare.find({text_id: body.textId}, function(err, usersShares) {
+                        var permissions = usersShares.filter(function(item) {
+                            return item.permission;
+                        }).length;
+                        // (permissions + 1) due to current permission has not yet been saved
+                        if((permissions + 1) === usersShares.length) {
+                            text.decryption_date = Date.now();
+                            text.save(function(err, text) {
+                                userShare.save(function(err, userShare) {
+                                    res.end();
+                                });
+                            });
+                        } else {
+                            userShare.save(function(err, userShare) {
+                                res.end();
+                            });
+                        }
+                    })
+                } else {
+                    userShare.save(function(err, userShare) {
+                        res.end();
+                    });
+                }
+            });
+        }
     });
 };
 
@@ -182,6 +257,7 @@ requestManager.saveText = function (req, res, body) {
             res.statusCode = 500;
             res.end("Error : can't save new text");
         } else {
+            sortHolders(body.holders);
             var encryptInput = {
                 text: body.text,
                 numshares: body.holders.length,
@@ -201,9 +277,138 @@ requestManager.saveText = function (req, res, body) {
                 res.statusCode = 200;
                 res.end();
             });
-            //shares.users[0].shares[0][0][1] //new BigInteger([3,2,1], -1)
         }
     });
 };
+
+requestManager.getTextsCount = function(req, res) {
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var section = urlWrapper.searchParams.get('section');
+    var userId = urlWrapper.searchParams.get('userId');
+    switch(section) {
+        case 'decrypted':
+            countTexts(userId, res, function(item) {
+                return !!item.decryption_date;
+            });
+            break;
+        case 'encrypted':
+            countTexts(userId, res, function(item) {
+                return !item.decryption_date;
+            });
+            break;
+        case 'created':
+            Text.find({creator_id: userId}, function(err, texts) {
+                res.end(JSON.stringify({
+                    count: texts.length
+                }));
+            });
+            break;
+        default:
+            res.statusCode = 400;
+            res.end('Unknown section name: ' + section);
+    }
+};
+
+requestManager.getTextDecryptedValue = function(req, res) {
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var textId = urlWrapper.searchParams.get('textId');
+    Text.findById(textId, function(err, text) {
+        if(!text) {
+            res.statusCode = 400;
+            res.end('No text with this id exists!');
+        } else if(!text.decryption_date) {
+            res.statusCode = 400;
+            res.end('Text is not yet allowed to be decrypted!');
+        } else {
+            UserTextShare.find({text_id: textId}, function(err, usersShares) {
+                var decryptPayload = {
+                    numshares: usersShares.length,
+                    users: []
+                };
+                sortUsersShares(usersShares);
+                usersShares.forEach(function(item) {
+                    var sharesDividedByLettersCount = JSON.parse(item.share);
+                    sharesDividedByLettersCount.forEach(function(sharedDividedByUsersCount) {
+                        sharedDividedByUsersCount.forEach(function(item) {
+                            var parsedBigInt = item[1];
+                            item[1] = new BigInteger(parsedBigInt._d, parsedBigInt._s);
+                            //shares.users[0].shares[0][0][1] //new BigInteger([3,2,1], -1)
+                        })
+                    });
+                    decryptPayload.users.push({
+                        shares: sharesDividedByLettersCount
+                    });
+                });
+
+                var decryptedText = encryptor.decrypt(decryptPayload);
+
+                res.end(JSON.stringify({
+                    text: decryptedText
+                }))
+            });
+        }
+    })
+};
+
+function countTexts(userId, res, textCheckFunction) {
+    UserTextShare.find({user_id: userId}, function (err, userShares) {
+        if (userShares.length > 0) {
+            var decryptedTextIds = [];
+            userShares.forEach(function (item) {
+                decryptedTextIds.push(new ObjectID(item.text_id));
+                var textsCount = decryptedTextIds.length;
+                Text.where('_id').in(decryptedTextIds).exec(function (err, texts) {
+                    textsCount--;
+                    if (textsCount === 0) {
+                        var suitableTextsCount = texts.filter(textCheckFunction).length;
+                        res.end(JSON.stringify({
+                            count: suitableTextsCount
+                        }))
+                    }
+                });
+            });
+        } else {
+            res.end(JSON.stringify({
+                count: 0
+            }));
+        }
+    });
+}
+
+function sortTexts(texts) {
+    texts.sort(function(t1, t2) {
+        if (t1.creationDate > t2.creationDate) {
+            return -1;
+        }
+        if (t1.creationDate < t2.creationDate) {
+            return 1;
+        }
+        return 0;
+    });
+}
+
+function sortHolders(holders) {
+    holders.sort(function(h1, h2) {
+        if (h1.userId > h2.userId) {
+            return -1;
+        }
+        if (h1.userId < h2.userId) {
+            return 1;
+        }
+        return 0;
+    });
+}
+
+function sortUsersShares(usersShares) {
+    usersShares.sort(function(h1, h2) {
+        if (h1.user_id > h2.user_id) {
+            return -1;
+        }
+        if (h1.user_id < h2.user_id) {
+            return 1;
+        }
+        return 0;
+    });
+}
 
 module.exports = requestManager;

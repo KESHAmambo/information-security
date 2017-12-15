@@ -26,7 +26,16 @@ Ext.define('ThemeDemoApp.view.widget.decryptedpanel.ViewTextWidgetColumn', {
                 ui: 'transparent',
                 tooltip: 'View text',
                 handler: function(button) {
-                    //TODO: open window with decrypted text
+                    var mainView = button.up('app-main');
+                    var composeCloseBtn = Ext.ComponentQuery.query('button[itemId="composeCloseBtn"]')[0];
+                    composeCloseBtn.toggleCls('s-close-window-btn');
+                    var container = button.up();
+                    var record = container.getWidgetRecord();
+                    mainView.textViewWindow = Ext.create({
+                        xtype: 'text-view-window',
+                        textId: record.get('textId'),
+                        title: record.get('title')
+                    });
                 }
             }
         ]

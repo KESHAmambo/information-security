@@ -45,17 +45,7 @@ Ext.define('ThemeDemoApp.view.widget.createdpanel.CreatedPanel', {
                         return data.confirmed / data.keepers;
                     }
                 }
-            ],
-            // data: [
-            //     {title: 'Passport data', share: true, creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 9, keepers: 9, permission: true},
-            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 5, keepers: 9, permission: false},
-            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 3, keepers: 9, permission: false},
-            //     {title: 'Passport data', share: true, creationDate: '2011/04/22', decodingDate: '', confirmed: 8, keepers: 9, permission: true},
-            //     {title: 'Passport data', share: true, creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 9, keepers: 9, permission: true},
-            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 3, keepers: 9, permission: false},
-            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '', confirmed: 3, keepers: 9, permission: false},
-            //     {title: 'Passport data', share: false, creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 9, keepers: 9, permission: false}
-            // ]
+            ]
         });
         me.items = [
             {
@@ -123,15 +113,17 @@ Ext.define('ThemeDemoApp.view.widget.createdpanel.CreatedPanel', {
             }
         ];
 
+        me.on({
+            updateData: me.loadStore
+        });
+
         me.callParent(arguments);
     },
 
-    listeners: {
-        activate: function(view) {
-            view.createdStore.getProxy().setExtraParams({
-                userId: view.getViewModel().get('userId')
-            });
-            view.createdStore.load();
-        }
+    loadStore: function() {
+        this.createdStore.getProxy().setExtraParams({
+            userId: this.getViewModel().get('userId')
+        });
+        this.createdStore.load();
     }
 });

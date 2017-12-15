@@ -21,6 +21,9 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptedPanel', {
             },
             fields: [
                 {
+                    name: 'textId'
+                },
+                {
                     name: 'title'
                 },
                 {
@@ -44,14 +47,7 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptedPanel', {
                         return data.confirmed / data.keepers;
                     }
                 }
-            ],
-            // data: [
-            //     {title: 'Passport data', creator: 'Lisa', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 1, keepers: 9, permission: true},
-            //     {title: 'Passport data', creator: 'Bart', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 5, keepers: 9, permission: false},
-            //     {title: 'Passport data', creator: 'Homer', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 3, keepers: 9, permission: false},
-            //     {title: 'Passport data', creator: 'Marge', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 8, keepers: 9, permission: true},
-            //     {title: 'Passport data', creator: 'Maggy', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 5, keepers: 9, permission: true}
-            // ]
+            ]
         });
         me.items = [
             {
@@ -111,15 +107,18 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptedPanel', {
             }
         ];
 
+        me.on({
+            updateData: me.loadStore
+        });
+
         me.callParent(arguments);
     },
 
-    listeners: {
-        activate: function(view) {
-            view.encryptedStore.getProxy().setExtraParams({
-                userId: view.getViewModel().get('userId')
-            });
-            view.encryptedStore.load();
-        }
+    loadStore: function() {
+        var view = this;
+        this.encryptedStore.getProxy().setExtraParams({
+            userId: this.getViewModel().get('userId')
+        });
+        this.encryptedStore.load();
     }
 });

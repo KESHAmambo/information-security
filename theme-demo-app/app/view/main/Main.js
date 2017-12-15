@@ -141,6 +141,7 @@ Ext.define('ThemeDemoApp.view.main.Main', {
             items: [
                 {
                     xtype: 'panel',
+                    itemId: 'menuPanel',
                     cls: 's-menu-panel',
                     layout: {
                         type: 'vbox',
@@ -154,7 +155,51 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                         height: 50,
                         margin: '0 16 16 0',
                         toggleGroup: 'menu-buttons',
-                        allowDepress: false
+                        allowDepress: false,
+                        updateCount: function() {
+                            var button = this;
+                            if(button.section) {
+                                Ext.Ajax.request({
+                                    url: RequestHelper.getBaseUrl() + 'api/textsCount',
+                                    method: 'GET',
+                                    params: {
+                                        userId: viewModel.get('userId'),
+                                        section: button.section
+                                    },
+                                    success: function(response) {
+                                        var responseText = JSON.parse(response.responseText);
+                                        var countEl = button.getEl().down('.s-items-count');
+                                        var itemsEl = button.getEl().down('.s-items-text');
+                                        countEl.setHtml('' + responseText.count);
+                                        if(responseText.count === 1) {
+                                            itemsEl.setHtml('ITEM');
+                                        } else {
+                                            itemsEl.setHtml('ITEMS');
+                                        }
+                                    },
+                                    failure: function (response) {
+                                        Ext.toast({
+                                            html: 'Error trying to get ' + button.section + ' texts count!',
+                                            title: 'Error',
+                                            userCls: 's-error-toast',
+                                            align: 'tr'
+                                        });
+                                        console.log('server-side failure with status code ' + response.status);
+                                    }
+                                });
+                            }
+                        },
+                        listeners: {
+                            click: function() {
+                                this.updateCount();
+                                cardLayout.setActiveItem(this.childPanelNumber);
+                                var childPanel = cardLayout.getActiveItem();
+                                childPanel.fireEvent('updateData');
+                            },
+                            afterrender: function(button) {
+                                button.updateCount();
+                            }
+                        }
                     },
                     items: [
                         {
@@ -162,45 +207,43 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                             html: menuButtonWithItemsTpl.apply({
                                 text: 'Decrypted',
                                 iconCls: 'fa fa-unlock-alt',
-                                count: 10
+                                count: '?'
                             }),
-                            handler: function(button) {
-                                cardLayout.setActiveItem(0);
-                            },
-                            pressed: true
+                            section: 'decrypted',
+                            childPanelNumber: 0,
+                            pressed: true,
+                            afterRender: function() {
+                                this.fireEvent('click');
+                            }
                         },
                         {
                             userCls: 's-encrypted-btn',
                             html: menuButtonWithItemsTpl.apply({
                                 text: 'Encrypted',
                                 iconCls: 'fa fa-lock',
-                                count: 10
+                                count: '?'
                             }),
-                            handler: function(button) {
-                                cardLayout.setActiveItem(1);
-                            }
+                            section: 'encrypted',
+                            childPanelNumber: 1
                         },
                         {
                             userCls: 's-created-btn',
                             html: menuButtonWithItemsTpl.apply({
                                 text: 'Created',
                                 iconCls: 'fa fa-pencil',
-                                count: 10
+                                count: '?'
                             }),
-                            handler: function(button) {
-                                cardLayout.setActiveItem(2);
-                            }
+                            section: 'created',
+                            childPanelNumber: 2
                         },
                         {
                             userCls: 's-settings-btn',
                             html: menuButtonTpl.apply({
                                 text: 'Settings',
                                 iconCls: 'fa fa-cogs',
-                                count: 10
+                                count: '?'
                             }),
-                            handler: function(button) {
-                                cardLayout.setActiveItem(3);
-                            }
+                            childPanelNumber: 3
                         }
                     ]
                 },
@@ -214,28 +257,6 @@ Ext.define('ThemeDemoApp.view.main.Main', {
 
         me.callParent(arguments);
     },
-
-    // setCardLayoutActiveItem: function(itemNumber, expandPanel) {
-    //     var me = this;
-    //     if(!expandPanel) {
-    //         var cardPanelHeight = me.mainPanel.getHeight() - 80;
-    //         var cardPanelWidth = me.mainPanel.getWidth() - 236;
-    //         me.cardPanel.animate({
-    //             to: {
-    //                 height: cardPanelHeight,
-    //                 width: cardPanelWidth
-    //             }
-    //         });
-    //     } else {
-    //         me.cardPanel.animate({
-    //             to: {
-    //                 height: 400,
-    //                 width: 300
-    //             }
-    //         });
-    //     }
-    //     var activePanel = me.cardLayout.setActiveItem(itemNumber);
-    // },
 
     listeners: {
         afterrender: function(view) {
@@ -254,6 +275,9 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                         if(view.composeWindow) {
                             view.composeWindow.destroy();
                             delete view.composeWindow;
+                        } else if (view.textViewWindow) {
+                            view.textViewWindow.destroy();
+                            delete view.textViewWindow;
                         } else {
                             view.composeWindow = Ext.create({
                                 xtype: 'compose-window'
@@ -299,6 +323,13 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                             },
                             success: function() {
                                 encryptBtn.removeCls('s-encrypt-btn-loading');
+
+                                view.down('created-panel').fireEvent('updateData');
+                                view.down('encrypted-panel').fireEvent('updateData');
+                                view.down('panel[itemId="menuPanel"]').query('button').forEach(function(item) {
+                                    item.updateCount();
+                                });
+
                                 Ext.toast({
                                     html: 'Text was successfully encrypted',
                                     title: 'Success',
@@ -310,7 +341,6 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                             failure: function (response) {
                                 encryptBtn.removeCls('s-encrypt-btn-loading');
                                 composeCloseBtn.fireEvent('click', composeCloseBtn);
-
                                 Ext.toast({
                                     html: 'Error trying to encrypt and store text!',
                                     title: 'Error',
