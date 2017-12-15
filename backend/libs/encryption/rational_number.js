@@ -1,5 +1,3 @@
-// Copyright (C) 2011 Amit A. Levy
-// var BigInteger = require('biginteger');
 var BigInteger = require('./biginteger');
 
 var RationalNumber = function (numerator, denominator) {

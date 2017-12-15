@@ -1064,18 +1064,27 @@ $include-ext-window-messagebox: dynamic(true);;
 $include-ext-window-toast: dynamic(true);;
 $include-ext-window-window: dynamic(true);;
 $include-mycustomtheme-panel-panel: dynamic(true);;
+$include-requesthelper: dynamic(true);;
 $include-themedemoapp-application: dynamic(true);;
+$include-themedemoapp-view-compose-composewindow: dynamic(true);;
+$include-themedemoapp-view-compose-composewindowcontroller: dynamic(true);;
+$include-themedemoapp-view-compose-composewindowmodel: dynamic(true);;
+$include-themedemoapp-view-login-login: dynamic(true);;
+$include-themedemoapp-view-login-logincontroller: dynamic(true);;
+$include-themedemoapp-view-login-loginmodel: dynamic(true);;
 $include-themedemoapp-view-main-main: dynamic(true);;
 $include-themedemoapp-view-main-mainviewcontroller: dynamic(true);;
 $include-themedemoapp-view-main-mainviewmodel: dynamic(true);;
+$include-themedemoapp-view-utils-requesthelper: dynamic(true);;
 $include-themedemoapp-view-widget-acceptedgraphwidget: dynamic(true);;
 $include-themedemoapp-view-widget-composepannel: dynamic(true);;
-$include-themedemoapp-view-widget-settingspanel: dynamic(true);;
 $include-themedemoapp-view-widget-createdpanel-createdpanel: dynamic(true);;
 $include-themedemoapp-view-widget-decryptedpanel-decryptedpanel: dynamic(true);;
 $include-themedemoapp-view-widget-decryptedpanel-viewtextwidgetcolumn: dynamic(true);;
 $include-themedemoapp-view-widget-encryptedpanel-encryptdecryptwidgetcolumn: dynamic(true);;
 $include-themedemoapp-view-widget-encryptedpanel-encryptedpanel: dynamic(true);;
+$include-themedemoapp-view-widget-settingspanel-settingspanel: dynamic(true);;
+$include-themedemoapp-view-widget-textviewwindow-textviewwindow: dynamic(true);;
 
 
 /* ======================== ETC ======================== */
@@ -1331,7 +1340,11 @@ $current-package: 'my-classic-theme';
 $current-resource-root: $my-classic-theme-resource-root;
 $relative-image-path-for-uis: $my-classic-theme-resource-path;
 @import '../../../../../packages/local/my-classic-theme/sass/var/Component';
+@import '../../../../../packages/local/my-classic-theme/sass/var/button/Button';
 @import '../../../../../packages/local/my-classic-theme/sass/var/panel/Panel';
+@import '../../../../../packages/local/my-classic-theme/sass/var/window/Window';
+@import '../../../../../packages/local/my-classic-theme/sass/var/form/field/Base';
+@import '../../../../../packages/local/my-classic-theme/sass/var/window/Toast';
 
 /* including package charts */
 $charts-resource-root: 'charts' !default;
@@ -1542,10 +1555,15 @@ $my-classic-theme-resource-path: 'images' !default;
 $current-package: 'my-classic-theme';
 $current-resource-root: $my-classic-theme-resource-root;
 $relative-image-path-for-uis: $my-classic-theme-resource-path;
+@import '../../../../../packages/local/my-classic-theme/sass/src/Progress';
 @import '../../../../../packages/local/my-classic-theme/sass/src/Component';
+@import '../../../../../packages/local/my-classic-theme/sass/src/LoadMask';
 @import '../../../../../packages/local/my-classic-theme/sass/src/button/Button';
 @import '../../../../../packages/local/my-classic-theme/sass/src/toolbar/Toolbar';
 @import '../../../../../packages/local/my-classic-theme/sass/src/panel/Panel';
+@import '../../../../../packages/local/my-classic-theme/sass/src/form/field/Base';
+@import '../../../../../packages/local/my-classic-theme/sass/src/view/BoundList';
+@import '../../../../../packages/local/my-classic-theme/sass/src/form/field/Tag';
 @import '../../../../../packages/local/my-classic-theme/sass/src/grid/Panel';
 
 /* including package font-awesome */
@@ -1582,7 +1600,10 @@ $ThemeDemoApp-resource-path: 'images' !default;
 $current-package: false;
 $current-resource-root: $ThemeDemoApp-resource-root;
 $relative-image-path-for-uis: $ThemeDemoApp-resource-path;
+@import '../../../../../theme-demo-app/sass/src/view/compose/ComposeWindow';
+@import '../../../../../theme-demo-app/sass/src/view/login/Login';
 @import '../../../../../theme-demo-app/sass/src/view/main/Main';
 @import '../../../../../theme-demo-app/sass/src/view/widget/createdpanel/CreatedPanel';
 @import '../../../../../theme-demo-app/sass/src/view/widget/decryptedpanel/DecryptedPanel';
 @import '../../../../../theme-demo-app/sass/src/view/widget/encryptedpanel/EncryptedPanel';
+@import '../../../../../theme-demo-app/sass/src/view/widget/settingspanel/SettingsPanel';

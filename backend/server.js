@@ -23,7 +23,10 @@ http.createServer(function (req, res) {
 
 function sendViewFile(req, res) {
     var pathToViewFile = './ThemeDemoApp' + req.url;
-    pathToViewFile = pathToViewFile.slice(0, pathToViewFile.indexOf('?'));
+    var indexOfQuestion = pathToViewFile.indexOf('?');
+    if(indexOfQuestion !== -1) {
+        pathToViewFile = pathToViewFile.slice(0, indexOfQuestion);
+    }
     sendFile(pathToViewFile, res);
 }
 

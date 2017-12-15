@@ -1404,10 +1404,10 @@
       },
       "id": "panel-1055",
       "radius": {
-        "bl": 4,
-        "br": 4,
-        "tl": 4,
-        "tr": 4
+        "bl": 5,
+        "br": 5,
+        "tl": 5,
+        "tr": 5
       },
       "slices": {
         "corners": "images/panel/panel-default-framed-corners.gif",
@@ -3775,10 +3775,10 @@
       },
       "id": "panel-1172",
       "radius": {
-        "bl": 4,
-        "br": 4,
-        "tl": 4,
-        "tr": 4
+        "bl": 5,
+        "br": 5,
+        "tl": 5,
+        "tr": 5
       },
       "slices": {
         "corners": "images/panel/panel-light-framed-corners.gif",

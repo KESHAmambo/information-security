@@ -1,4 +1,3 @@
-// Copyright (C) 2011 Amit A. Levy
 var BigInteger = require('./biginteger');
 var $F = require('./rational_number');
 
