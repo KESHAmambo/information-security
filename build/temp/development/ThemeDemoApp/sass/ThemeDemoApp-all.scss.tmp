@@ -1344,6 +1344,7 @@ $relative-image-path-for-uis: $my-classic-theme-resource-path;
 @import '../../../../../packages/local/my-classic-theme/sass/var/panel/Panel';
 @import '../../../../../packages/local/my-classic-theme/sass/var/window/Window';
 @import '../../../../../packages/local/my-classic-theme/sass/var/form/field/Base';
+@import '../../../../../packages/local/my-classic-theme/sass/var/window/Toast';
 
 /* including package charts */
 $charts-resource-root: 'charts' !default;

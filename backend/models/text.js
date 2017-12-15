@@ -13,7 +13,8 @@ var schema = new Schema({
     },
     creation_date: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now
     },
     decrypted_text: {
         type: String

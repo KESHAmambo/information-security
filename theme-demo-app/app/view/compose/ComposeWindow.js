@@ -30,61 +30,68 @@ Ext.define('ThemeDemoApp.view.compose.ComposeWindow', {
     height: '100%',
     width: '100%',
     layout: 'fit',
-    items: [
-        {
-            xtype: 'panel',
-            cls: 's-compose-window-main-panel',
-            margin: '75 44 128',
-            bodyPadding: '16 16 11',
-            layout: {
-                type: 'vbox',
-                align: 'stretch',
-                pack: 'top'
+
+    initComponent: function() {
+        var me = this;
+
+        var holdersField = me.holdersField = Ext.create({
+            xtype: 'tagfield',
+            fieldLabel: 'Holders',
+            labelAlign: 'top',
+            queryMode: 'local',
+            displayField: 'username',
+            valueField: 'id',
+            listConfig: {
+                shadow: false,
+                alwaysOnTop: true
             },
-            items: [
-                {
-                    xtype: 'htmleditor',
-                    enableFont: false,
-                    margin: '0 0 16 0',
-                    flex: 1
+            store: Ext.create('Ext.data.Store', {
+                proxy: {
+                    type: 'ajax',
+                    url: RequestHelper.getBaseUrl() + 'api/users',
+                    reader: {
+                        type: 'json'
+                    }
                 },
-                {
-                    xtype: 'tagfield',
-                    // width: '100%',
-                    fieldLabel: 'Holders',
-                    labelAlign: 'top',
-                    queryMode: 'local',
-                    displayField: 'name',
-                    valueField: 'abbr',
-                    listConfig: {
-                        shadow: false,
-                        alwaysOnTop: true
+                fields: ['id', 'username']
+            })
+        });
+
+        me.items = [
+            {
+                xtype: 'panel',
+                cls: 's-compose-window-main-panel',
+                margin: '75 44 128',
+                bodyPadding: '16 16 11',
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch',
+                    pack: 'top'
+                },
+                items: [
+                    {
+                        xtype: 'textfield',
+                        itemId: 'title',
+                        fieldLabel: 'Title',
+                        labelAlign: 'top'
                     },
-                    store: Ext.create('Ext.data.Store', {
-                        fields: ['abbr', 'name'],
-                        data : [
-                            {"abbr":"AL", "name":"Alabama"},
-                            {"abbr":"AK", "name":"Alaska"},
-                            {"abbr":"AZ", "name":"Arizona"},
-                            {"abbr":"AL", "name":"Alabama"},
-                            {"abbr":"AK", "name":"Alaska"},
-                            {"abbr":"AZ", "name":"Arizona"},
-                            {"abbr":"AL", "name":"Alabama"},
-                            {"abbr":"AK", "name":"Alaska"},
-                            {"abbr":"AZ", "name":"Arizona"},
-                            {"abbr":"AL", "name":"Alabama"},
-                            {"abbr":"AK", "name":"Alaska"},
-                            {"abbr":"AZ", "name":"Arizona"},
-                            {"abbr":"AL", "name":"Alabama"},
-                            {"abbr":"AK", "name":"Alaska"},
-                            {"abbr":"AZ", "name":"Arizona"},
-                            {"abbr":"AL", "name":"Alabama"},
-                            {"abbr":"AK", "name":"Alaska"},
-                            {"abbr":"AZ", "name":"Arizona"}
-                        ]
-                    })
-                }
-            ]
+                    {
+                        xtype: 'htmleditor',
+                        enableFont: false,
+                        margin: '0 0 16 0',
+                        flex: 1
+                    },
+                    holdersField
+                ]
+            }
+        ];
+
+        me.callParent(arguments);
+    },
+
+    listeners: {
+        afterrender: function(view) {
+            view.holdersField.getStore().load();
         }
-    ]
+    }
 });

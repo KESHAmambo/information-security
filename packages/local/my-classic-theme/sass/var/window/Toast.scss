@@ -1,0 +1,30 @@
+.x-toast {
+  background: white;
+  border: none !important;
+  box-shadow: 0 3px 54px 0 rgba(0, 0, 0, 0.25);
+  .x-window-header {
+    border: none;
+    .x-title-text {
+      text-align: left;
+      &:after {
+        display: none;
+      }
+    }
+  }
+  &.s-success-toast {
+    .x-window-header {
+      background: $s-green-color;
+      .x-title-text {
+        color: white;
+      }
+    }
+  }
+  &.s-error-toast {
+    .x-window-header {
+      background: $s-red-color;
+      .x-title-text {
+        color: white;
+      }
+    }
+  }
+}

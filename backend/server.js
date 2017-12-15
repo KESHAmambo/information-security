@@ -1,20 +1,20 @@
 var http = require('http');
 var fs = require('fs');
 var requestManager = require('./libs/requestManager');
-var User = require('./models/users').User;
+var User = require('./models/user').User;
 
 var devMode = true;
 
 http.createServer(function (req, res) {
     if(devMode) {
         res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+        res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-File-Upload, content-type");
     }
 
-    var viewReg = /^\/api\/.*$/;
+    var apiRequestRegexp = /^\/api\/.*$/;
     if(req.url === '/') {
         sendFile('./ThemeDemoApp/index.html', res);
-    } else if(!viewReg.test(req.url)) {
+    } else if(!apiRequestRegexp.test(req.url)) {
         sendViewFile(req, res);
     } else {
         onRequest(req, res);
@@ -49,8 +49,11 @@ function onRequest(req, res) {
 
     if(req.method === 'POST') {
         onPostRequest(requestPath, req, res);
-    } else {
+    } else if(req.method === 'GET') {
         onGetRequest(requestPath, req, res);
+    } else if(req.method === 'OPTIONS') {
+        res.statusCode = 200;
+        res.end();
     }
 }
 
@@ -69,7 +72,7 @@ function onPostRequest(requestPath, req, res) {
             default:
                 console.log('Unhandled request url: ', requestPath);
                 res.statusCode = 404;
-                res.end("Default not found");
+                res.end("End-point not found");
         }
     });
 
@@ -86,9 +89,12 @@ function onGetRequest(requestPath, req, res) {
         case '/api/signup':
             requestManager.signUp(req, res);
             break;
+        case '/api/users':
+            requestManager.getUsers(req, res);
+            break;
         default:
             console.log('Unhandled request url: ', requestPath);
             res.statusCode = 404;
-            res.end("Default not found");
+            res.end("End-point not found");
     }
 }

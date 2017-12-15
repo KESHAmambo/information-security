@@ -13,14 +13,20 @@ var schema = new Schema({
     },
     key_withdrawn: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
     permission: {
         type: Boolean,
+        required: true,
+        default: false
+    },
+    share: {
+        type: String,
         required: true
     }
 });
 
 
 
-exports.UserPermissions = mongoose.model('UserPermissions', schema);
+module.exports.UserTextShare = mongoose.model('UserTextShare', schema);

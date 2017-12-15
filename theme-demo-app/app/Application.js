@@ -8,10 +8,6 @@ Ext.define('ThemeDemoApp.Application', {
     
     name: 'ThemeDemoApp',
 
-    stores: [
-        // TODO: add global / shared stores here
-    ],
-    
     launch: function () {
         // Ext.create({
         //     xtype: 'app-main'

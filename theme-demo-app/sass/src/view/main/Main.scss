@@ -168,5 +168,27 @@
     &.x-btn-over {
       background: $faint-purple-color;
     }
+    &.s-encrypt-btn-loading {
+      .x-btn-icon-el {
+        display: block;
+        animation: spin 1s infinite;
+        position: absolute;
+        left: 45px;
+        &:before {
+          font-family: FontAwesome;
+          content: '\f110';
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

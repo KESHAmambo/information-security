@@ -1,4 +1,23 @@
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2963 */
+.x-tab-focus .x-tab-default-right-tl,
+.x-tab-focus .x-tab-default-right-bl,
+.x-tab-focus .x-tab-default-right-tr,
+.x-tab-focus .x-tab-default-right-br,
+.x-tab-focus .x-tab-default-right-tc,
+.x-tab-focus .x-tab-default-right-bc {
+    background-image: url(images/tab/tab-default-right-focus-corners.gif);
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2972 */
+.x-tab-focus .x-tab-default-right-ml,
+.x-tab-focus .x-tab-default-right-mr {
+    background-image: url(images/tab/tab-default-right-focus-sides.gif);
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2977 */
+.x-tab-focus .x-tab-default-right-mc {
+    background-repeat: repeat-x;
+    background-image: url(images/tab/tab-default-right-focus-fbg.gif);
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2963 */
 .x-tab-focus.x-tab-over .x-tab-default-right-tl,
 .x-tab-focus.x-tab-over .x-tab-default-right-bl,
 .x-tab-focus.x-tab-over .x-tab-default-right-tr,
@@ -1800,7 +1819,7 @@
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/button/Button.scss:464 */
 .x-btn-inner-plain-toolbar-medium {
-    font: 300 14px/18px helvetica, arial, verdana, sans-serif;
+    font: 300 14px/18px monospace;
     color: white;
     padding: 0 8px;
     max-width: 100%;
@@ -2379,7 +2398,7 @@
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/button/Button.scss:464 */
 .x-btn-inner-plain-toolbar-large {
-    font: 300 16px/20px helvetica, arial, verdana, sans-serif;
+    font: 300 16px/20px monospace;
     color: white;
     padding: 0 10px;
     max-width: 100%;
@@ -2943,7 +2962,7 @@
     color: #000;
     font-size: 13px;
     font-weight: 300;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: monospace;
     line-height: 16px;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/panel/Panel.scss:405 */
@@ -3331,7 +3350,7 @@
     color: #000;
     font-size: 13px;
     font-weight: 300;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: monospace;
     line-height: 16px;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/panel/Panel.scss:405 */
@@ -8311,7 +8330,7 @@
     max-width: 16em;
     min-width: 0;
     font-size: 13px;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: monospace;
     line-height: 13px;
     font-weight: 300;
     white-space: nowrap;
@@ -8648,6 +8667,30 @@
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/theme-demo-app/sass/src/view/main/Main.scss:168 */
 .s-floating-bottom-btn.s-encrypt-btn.x-btn-over {
     background: #d5a0d5;
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/theme-demo-app/sass/src/view/main/Main.scss:172 */
+.s-floating-bottom-btn.s-encrypt-btn.s-encrypt-btn-loading .x-btn-icon-el {
+    display: block;
+    animation: spin 1s infinite;
+    position: absolute;
+    left: 45px;
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/theme-demo-app/sass/src/view/main/Main.scss:177 */
+.s-floating-bottom-btn.s-encrypt-btn.s-encrypt-btn-loading .x-btn-icon-el:before {
+    font-family: FontAwesome;
+    content: '\f110';
+    font-size: 20px;
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/theme-demo-app/sass/src/view/main/Main.scss:187 */
+@keyframes spin {
+    /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/theme-demo-app/sass/src/view/main/Main.scss:188 */
+    0% {
+        transform: rotate(0deg);
+    }
+    /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/theme-demo-app/sass/src/view/main/Main.scss:191 */
+    100% {
+        transform: rotate(360deg);
+    }
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/theme-demo-app/sass/src/view/widget/createdpanel/CreatedPanel.scss:2 */
 .created-panel .x-progress-bar {

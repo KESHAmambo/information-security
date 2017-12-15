@@ -234,6 +234,8 @@ Ext.define('ThemeDemoApp.view.main.Main', {
 
     listeners: {
         afterrender: function(view) {
+            var viewModel = view.getViewModel();
+
             var composeCloseBtn = Ext.create({
                 xtype: 'button',
                 itemId: 'composeCloseBtn',
@@ -267,13 +269,53 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                 hidden: true,
                 renderTo: Ext.getBody(),
                 handler: function(button) {
+                    var titleField = view.composeWindow.down('textfield[itemId="title"]');
                     var htmlEditor = view.composeWindow.down('htmleditor');
                     var tagfield = view.composeWindow.down('tagfield');
+                    var title = titleField.getValue();
                     var text = htmlEditor.getValue();
                     var holders = tagfield.getValue();
-                    debugger
-                    //TODO: send create request and fire click event on close composeCloseButton
-                    composeCloseBtn.fireEvent('click', composeCloseBtn);
+                    if(Ext.isEmpty(title)) {
+                        Ext.toast('Title is Empty!', undefined, 'tr');
+                    } else if(Ext.isEmpty(text)) {
+                        Ext.toast('Text is Empty!', undefined, 'tr');
+                    } else if(Ext.isEmpty(holders)) {
+                        Ext.toast('No holders added!', undefined, 'tr');
+                    } else {
+                        encryptBtn.addCls('s-encrypt-btn-loading');
+                        Ext.Ajax.request({
+                            url: RequestHelper.getBaseUrl() + 'api/saveText',
+                            method: 'POST',
+                            jsonData: {
+                                creatorId: viewModel.get('userId'),
+                                title: title,
+                                text: text,
+                                holders: holders
+                            },
+                            success: function() {
+                                encryptBtn.removeCls('s-encrypt-btn-loading');
+                                Ext.toast({
+                                    html: 'Text was successfully encrypted',
+                                    title: 'Success',
+                                    userCls: 's-success-toast',
+                                    align: 'tr'
+                                });
+                                composeCloseBtn.fireEvent('click', composeCloseBtn);
+                            },
+                            failure: function (response) {
+                                encryptBtn.removeCls('s-encrypt-btn-loading');
+                                composeCloseBtn.fireEvent('click', composeCloseBtn);
+
+                                Ext.toast({
+                                    html: 'Error trying to encrypt and store text!',
+                                    title: 'Error',
+                                    userCls: 's-error-toast',
+                                    align: 'tr'
+                                });
+                                console.log('server-side failure with status code ' + response.status);
+                            }
+                        });
+                    }
                 }
             });
         }

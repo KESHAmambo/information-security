@@ -1,7 +1,9 @@
 var urlManager = require('url');
-var User = require('../models/users').User;
+var ObjectID = require('mongodb').ObjectID;
+var User = require('../models/user').User;
 var Text = require('../models/text').Text;
-var UserPermissions = require('../models/user_permission').UserPermissions;
+var UserTextShare = require('../models/userTextShare').UserTextShare;
+var encryptor = require('../libs/encryption/encrypt');
 
 function RequestManager() {}
 
@@ -63,17 +65,50 @@ requestManager.getCreatedTexts = function (req, res) {
     });
 };
 
-requestManager.saveText = function (req, res) {
-    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
-    var now = new Date();
+requestManager.getUsers = function (req, res) {
+    User.find({}, function(err, users) {
+        var usersForRes = users.map(function (item) {
+            return {
+                id: item.id,
+                username: item.user_name
+            }
+        });
+        res.statusCode = 200;
+        res.end(JSON.stringify(usersForRes));
+    });
+};
 
-    var text = new Text({title: urlWrapper.searchParams.get('title'), creator_id: urlWrapper.searchParams.get('creator_id'), creation_date: now});
-    text.save(function (err, result) {
+requestManager.saveText = function (req, res, body) {
+    var now = new Date();
+    var text = new Text({
+        title: body.title,
+        creator_id: body.creatorId});
+
+    text.save(function (err, persistedText) {
         if(err){
             res.statusCode = 500;
             res.end("Error : can't save new text");
         } else {
-            res.end("Add new text: ", text.id);
+            var encryptInput = {
+                text: body.text,
+                numshares: body.holders.length,
+                threshold: body.holders.length,
+                usersId: body.holders
+            };
+            var shares = encryptor.makeShares(encryptInput);
+            var usersShares = shares.users.map(function (item) {
+                var userShare = JSON.stringify(item.shares);
+                return new UserTextShare({
+                    text_id: persistedText.id,
+                    user_id: item.usersId,
+                    share: userShare
+                })
+            });
+            UserTextShare.create(usersShares, function (err, persistedUserShares) {
+                res.statusCode = 200;
+                res.end();
+            });
+            //shares.users[0].shares[0][0][1] //new BigInteger([3,2,1], -1)
         }
     });
 };

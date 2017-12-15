@@ -1,3 +1,37 @@
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/var/window/Toast.scss:1 */
+.x-toast {
+    background: white;
+    border: none !important;
+    box-shadow: 0 3px 54px 0 rgba(0, 0, 0, 0.25);
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/var/window/Toast.scss:5 */
+.x-toast .x-window-header {
+    border: none;
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/var/window/Toast.scss:7 */
+.x-toast .x-window-header .x-title-text {
+    text-align: left;
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/var/window/Toast.scss:9 */
+.x-toast .x-window-header .x-title-text:after {
+    display: none;
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/var/window/Toast.scss:15 */
+.x-toast.s-success-toast .x-window-header {
+    background: #26b774;
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/var/window/Toast.scss:17 */
+.x-toast.s-success-toast .x-window-header .x-title-text {
+    color: white;
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/var/window/Toast.scss:23 */
+.x-toast.s-error-toast .x-window-header {
+    background: #fa3a72;
+}
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/var/window/Toast.scss:25 */
+.x-toast.s-error-toast .x-window-header .x-title-text {
+    color: white;
+}
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/packages/core/sass/src/util/SizeMonitor.scss:5 */
 .x-size-monitored {
     /**
@@ -3037,7 +3071,7 @@ the height of a multi-line element */
     font-size: 13px;
     line-height: 17px;
     font-weight: 300;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: monospace;
     background: #fff;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/Component.scss:18 */
@@ -3088,7 +3122,7 @@ the height of a multi-line element */
     padding: 0;
     background-color: transparent;
     color: #666;
-    font: 300 13px helvetica, arial, verdana, sans-serif;
+    font: 300 13px monospace;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/LoadMask.scss:59 */
 .x-mask-msg-text {
@@ -3119,7 +3153,7 @@ the height of a multi-line element */
     color: #666;
     font-weight: 300;
     font-size: 13px;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: monospace;
     text-align: center;
     line-height: 20px;
 }
@@ -3861,7 +3895,7 @@ the height of a multi-line element */
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/button/Button.scss:464 */
 .x-btn-inner-default-medium {
-    font: 300 14px/18px helvetica, arial, verdana, sans-serif;
+    font: 300 14px/18px monospace;
     color: #fff;
     padding: 0 8px;
     max-width: 100%;
@@ -4438,7 +4472,7 @@ the height of a multi-line element */
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/button/Button.scss:464 */
 .x-btn-inner-default-large {
-    font: 300 16px/20px helvetica, arial, verdana, sans-serif;
+    font: 300 16px/20px monospace;
     color: #fff;
     padding: 0 10px;
     max-width: 100%;
@@ -5611,7 +5645,7 @@ the height of a multi-line element */
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/button/Button.scss:464 */
 .x-btn-inner-default-toolbar-medium {
-    font: 300 14px/18px helvetica, arial, verdana, sans-serif;
+    font: 300 14px/18px monospace;
     color: white;
     padding: 0 8px;
     max-width: 100%;
@@ -6207,7 +6241,7 @@ the height of a multi-line element */
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/button/Button.scss:464 */
 .x-btn-inner-default-toolbar-large {
-    font: 300 16px/20px helvetica, arial, verdana, sans-serif;
+    font: 300 16px/20px monospace;
     color: white;
     padding: 0 10px;
     max-width: 100%;
@@ -7056,7 +7090,7 @@ the height of a multi-line element */
 .x-toolbar-text-default {
     padding: 0 4px;
     color: #3d3540;
-    font: 300 13px/16px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/16px monospace;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:334 */
 .x-toolbar-spacer-default {
@@ -7231,7 +7265,7 @@ the height of a multi-line element */
 .x-toolbar-text-footer {
     padding: 0 4px;
     color: #3d3540;
-    font: 300 13px/16px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/16px monospace;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/toolbar/Toolbar.scss:334 */
 .x-toolbar-spacer-footer {
@@ -7316,7 +7350,7 @@ the height of a multi-line element */
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/dd/StatusProxy.scss:1 */
 .x-dd-drag-proxy {
     color: #000;
-    font: 300 13px/17px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/17px monospace;
     border: 1px solid #e1e1e1;
     background-color: #fff;
 }
@@ -9238,7 +9272,7 @@ the height of a multi-line element */
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/container/ButtonGroup.scss:132 */
 .x-btn-group-header-title-default {
-    font: 300 13px helvetica, arial, verdana, sans-serif;
+    font: 300 13px monospace;
     line-height: 16px;
     color: #000;
 }
@@ -9498,7 +9532,7 @@ the height of a multi-line element */
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/container/ButtonGroup.scss:132 */
 .x-btn-group-header-title-default-framed {
-    font: 300 13px helvetica, arial, verdana, sans-serif;
+    font: 300 13px monospace;
     line-height: 16px;
     color: #000;
 }
@@ -9670,7 +9704,7 @@ the height of a multi-line element */
     border-width: 1px;
     border-style: solid;
     background: #fff;
-    color: #000;
+    color: #643fac;
     font-size: 13px;
     font-weight: 300;
     font-family: monospace;
@@ -9705,7 +9739,7 @@ the height of a multi-line element */
     color: #724289;
     font-size: 15px;
     font-weight: 300;
-    font-family: Times New Roman;
+    font-family: monospace;
     line-height: 16px;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/window/Window.scss:323 */
@@ -10962,7 +10996,7 @@ the height of a multi-line element */
 .x-form-invalid-under-default {
     padding: 2px 2px 2px 20px;
     color: #cf4c35;
-    font: 300 13px/16px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/16px monospace;
     background: no-repeat 0 2px;
     background-image: url(images/form/exclamation.png);
 }
@@ -11237,7 +11271,7 @@ the height of a multi-line element */
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/form/FieldSet.scss:148 */
 .x-fieldset-header-default > .x-fieldset-header-text {
-    font: 300 12px/16px helvetica, arial, verdana, sans-serif;
+    font: 300 12px/16px monospace;
     color: #000;
     padding: 1px 0;
 }
@@ -11408,7 +11442,7 @@ the height of a multi-line element */
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/view/BoundList.scss:8 */
 .x-boundlist-item {
     padding: 0 6px;
-    font: normal 13px helvetica, arial, verdana, sans-serif;
+    font: normal 13px monospace;
     line-height: 22px;
     cursor: pointer;
     cursor: hand;
@@ -11530,7 +11564,7 @@ div.x-datepicker-arrow:hover {
 .x-datepicker-column-header {
     width: 30px;
     color: #000;
-    font: 300 13px helvetica, arial, verdana, sans-serif;
+    font: 300 13px monospace;
     text-align: right;
     background-color: #fff;
 }
@@ -11547,7 +11581,7 @@ div.x-datepicker-arrow:hover {
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/picker/Date.scss:163 */
 .x-datepicker-date {
     padding: 0 7px 0 0;
-    font: 300 13px helvetica, arial, verdana, sans-serif;
+    font: 300 13px monospace;
     color: #000;
     cursor: pointer;
     line-height: 23px;
@@ -11631,7 +11665,7 @@ div.x-datepicker-date:hover {
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/picker/Date.scss:274 */
 .x-monthpicker-item {
     margin: 5px 0 5px;
-    font: 300 13px helvetica, arial, verdana, sans-serif;
+    font: 300 13px monospace;
     text-align: center;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/picker/Date.scss:280 */
@@ -12456,12 +12490,12 @@ a.x-color-picker-item:hover {
     padding: 10px;
     color: grey;
     background-color: #fff;
-    font: 300 13px helvetica, arial, verdana, sans-serif;
+    font: 300 13px monospace;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/view/Table.scss:25 */
 .x-grid-item {
     color: #000;
-    font: 300 13px/15px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/15px monospace;
     background-color: #fff;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/view/Table.scss:31 */
@@ -12674,7 +12708,7 @@ a.x-color-picker-item:hover {
 .x-column-header {
     border-right: 1px solid #cfcfcf;
     color: #666;
-    font: 300 13px/15px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/15px monospace;
     outline: 0;
     background-color: #fff;
 }
@@ -13438,7 +13472,7 @@ a.x-color-picker-item:hover {
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/grid/feature/Grouping.scss:36 */
 .x-grid-group-title {
     color: #666;
-    font: 300 13px/15px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/15px monospace;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/grid/feature/Grouping.scss:41 */
 .x-grid-group-hd-collapsed .x-grid-group-title {
@@ -13450,7 +13484,7 @@ a.x-color-picker-item:hover {
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/grid/feature/RowBody.scss:1 */
 .x-grid-rowbody {
-    font: 300 13px/15px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/15px monospace;
     padding: 5px 10px 5px 10px;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/grid/feature/Summary.scss:1 */
@@ -13471,7 +13505,7 @@ a.x-color-picker-item:hover {
     border-color: #cfcfcf;
     background-color: #fff !important;
     border-top: 1px solid #cfcfcf;
-    font: 300 13px/15px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/15px monospace;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/grid/feature/Summary.scss:26 */
 .x-docked-summary .x-grid-item,
@@ -13569,7 +13603,7 @@ a.x-color-picker-item:hover {
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/menu/Menu.scss:417 */
 .x-menu-item-text-default {
-    font: 300 13px helvetica, arial, verdana, sans-serif;
+    font: 300 13px monospace;
     line-height: 23px;
     padding-top: 1px;
     color: #000;
@@ -13858,7 +13892,7 @@ a.x-color-picker-item:hover {
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/menu/Menu.scss:417 */
 .x-menu-item-text-default-menubar {
-    font: 300 13px helvetica, arial, verdana, sans-serif;
+    font: 300 13px monospace;
     line-height: 23px;
     padding-top: 1px;
     color: #000;
@@ -14567,7 +14601,7 @@ a.x-color-picker-item:hover {
 .x-accordion-hd .x-panel-header-title {
     color: #724289;
     font-weight: 300;
-    font-family: helvetica, arial, verdana, sans-serif;
+    font-family: monospace;
     text-transform: none;
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/layout/container/Accordion.scss:13 */
@@ -15533,7 +15567,7 @@ div.x-border-layout-ct {
 }
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2127 */
 .x-tab-inner-default {
-    font: 300 13px/16px helvetica, arial, verdana, sans-serif;
+    font: 300 13px/16px monospace;
     color: #000;
     max-width: 100%;
 }
@@ -15793,23 +15827,4 @@ div.x-border-layout-ct {
 .x-tab-over .x-tab-default-right-mc {
     background-repeat: repeat-x;
     background-image: url(images/tab/tab-default-right-over-fbg.gif);
-}
-/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2963 */
-.x-tab-focus .x-tab-default-right-tl,
-.x-tab-focus .x-tab-default-right-bl,
-.x-tab-focus .x-tab-default-right-tr,
-.x-tab-focus .x-tab-default-right-br,
-.x-tab-focus .x-tab-default-right-tc,
-.x-tab-focus .x-tab-default-right-bc {
-    background-image: url(images/tab/tab-default-right-focus-corners.gif);
-}
-/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2972 */
-.x-tab-focus .x-tab-default-right-ml,
-.x-tab-focus .x-tab-default-right-mr {
-    background-image: url(images/tab/tab-default-right-focus-sides.gif);
-}
-/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/ext/classic/theme-neutral/sass/src/tab/Tab.scss:2977 */
-.x-tab-focus .x-tab-default-right-mc {
-    background-repeat: repeat-x;
-    background-image: url(images/tab/tab-default-right-focus-fbg.gif);
 }

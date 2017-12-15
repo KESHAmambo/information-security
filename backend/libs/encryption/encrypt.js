@@ -1,4 +1,4 @@
-var devMode = true;
+var devMode = false;
 
 var SecretSharing = require('./secret_sharing');
 var input = {
@@ -7,11 +7,7 @@ var input = {
     threshold: 3,
     usersId: [ 1 , 2, 3]
 };
-var output = {
-    numshares: 2,
-    encryptedText: '',
-    users: []
-};
+
 String.prototype.hexDecode = function(){
     var j;
     var hexes = this.match(/.{1,4}/g) || [];
@@ -23,8 +19,8 @@ String.prototype.hexDecode = function(){
     return back;
 };
 
-var Encryptor = {};
-Encryptor.makeShares = function (input) {
+var encryptor = {};
+encryptor.makeShares = function (input) {
     var str = input.text;
     var numOfUsers = input.numshares;
     var numOfUsersForEncryption = input.threshold;
@@ -58,7 +54,7 @@ Encryptor.makeShares = function (input) {
         };
         output.users.push(user);
         for (var i = 0; i < str.length; i++) {
-            output.users[t].id = input.usersId[t];
+            output.users[t].usersId = input.usersId[t];
             output.users[t].shares.push(Keys[i].shares[t]);
         }
     }
@@ -66,7 +62,7 @@ Encryptor.makeShares = function (input) {
     return output;
 };
 
-Encryptor.decrypt = function (output) {
+encryptor.decrypt = function (output) {
     var Keys = [];
     var textLength = output.users[0].shares.length;
     //для каждого слова соберем все ключи
@@ -89,12 +85,12 @@ Encryptor.decrypt = function (output) {
     return decryptedTextFromKeys;
 };
 
-
+module.exports = encryptor;
 
 // TEST-----------------------------------------------------------------------------------
 if(devMode) {
     var beforeEncrypt = Date.now();
-    var encryptedText = Encryptor.makeShares(input);
+    var encryptedText = encryptor.makeShares(input);
     console.log('Encrypted text: ', encryptedText);
     console.log('Share: ', JSON.stringify(encryptedText.users[2].shares[0]));
     var afterEncrypt = Date.now();
@@ -108,7 +104,7 @@ if(devMode) {
     // })
 
 
-    var decryptedText = Encryptor.decrypt(encryptedText);
+    var decryptedText = encryptor.decrypt(encryptedText);
     var afterDecrypt = Date.now();
     console.log('Decryption time:' + (afterDecrypt - afterEncrypt));
     console.log('Right result: ' + (decryptedText === input.text) + '. Text length: ' +
