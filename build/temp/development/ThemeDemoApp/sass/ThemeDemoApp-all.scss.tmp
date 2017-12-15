@@ -1555,6 +1555,7 @@ $my-classic-theme-resource-path: 'images' !default;
 $current-package: 'my-classic-theme';
 $current-resource-root: $my-classic-theme-resource-root;
 $relative-image-path-for-uis: $my-classic-theme-resource-path;
+@import '../../../../../packages/local/my-classic-theme/sass/src/Progress';
 @import '../../../../../packages/local/my-classic-theme/sass/src/Component';
 @import '../../../../../packages/local/my-classic-theme/sass/src/LoadMask';
 @import '../../../../../packages/local/my-classic-theme/sass/src/button/Button';

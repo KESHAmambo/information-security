@@ -11,7 +11,14 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptedPanel', {
     initComponent: function() {
         var me = this;
 
-        var encryptedStore = Ext.create('Ext.data.Store', {
+        var encryptedStore = me.encryptedStore = Ext.create('Ext.data.Store', {
+            proxy: {
+                type: 'ajax',
+                url: RequestHelper.getBaseUrl() + 'api/encryptedTexts',
+                reader: {
+                    type: 'json'
+                }
+            },
             fields: [
                 {
                     name: 'title'
@@ -21,9 +28,6 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptedPanel', {
                 },
                 {
                     name: 'creationDate'
-                },
-                {
-                    name: 'decodingDate'
                 },
                 {
                     name: 'confirmed'
@@ -41,13 +45,13 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptedPanel', {
                     }
                 }
             ],
-            data: [
-                {title: 'Passport data', creator: 'Lisa', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 1, keepers: 9, permission: true},
-                {title: 'Passport data', creator: 'Bart', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 5, keepers: 9, permission: false},
-                {title: 'Passport data', creator: 'Homer', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 3, keepers: 9, permission: false},
-                {title: 'Passport data', creator: 'Marge', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 8, keepers: 9, permission: true},
-                {title: 'Passport data', creator: 'Maggy', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 5, keepers: 9, permission: true}
-            ]
+            // data: [
+            //     {title: 'Passport data', creator: 'Lisa', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 1, keepers: 9, permission: true},
+            //     {title: 'Passport data', creator: 'Bart', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 5, keepers: 9, permission: false},
+            //     {title: 'Passport data', creator: 'Homer', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 3, keepers: 9, permission: false},
+            //     {title: 'Passport data', creator: 'Marge', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 8, keepers: 9, permission: true},
+            //     {title: 'Passport data', creator: 'Maggy', creationDate: '2011/04/22', decodingDate: '2011/04/22', confirmed: 5, keepers: 9, permission: true}
+            // ]
         });
         me.items = [
             {
@@ -108,5 +112,14 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptedPanel', {
         ];
 
         me.callParent(arguments);
+    },
+
+    listeners: {
+        activate: function(view) {
+            view.encryptedStore.getProxy().setExtraParams({
+                userId: view.getViewModel().get('userId')
+            });
+            view.encryptedStore.load();
+        }
     }
 });

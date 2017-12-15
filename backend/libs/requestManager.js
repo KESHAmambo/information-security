@@ -1,4 +1,5 @@
 var urlManager = require('url');
+var mongoose = require('../libs/mongoose');
 var ObjectID = require('mongodb').ObjectID;
 var User = require('../models/user').User;
 var Text = require('../models/text').Text;
@@ -64,16 +65,17 @@ requestManager.getCreatedTexts = function (req, res) {
     Text.find({creator_id: userId}, function(err, texts) {
         var textsCount = texts.length;
         if(textsCount > 0) {
-            createdTexts = [];
+            var createdTexts = [];
             texts.forEach(function (text) {
                 UserTextShare.find({text_id: text.id}, function(err, usersShares) {
                     var userHasShare = usersShares.some(function(item) {
                         return item.user_id === userId;
                     });
                     var confirmed = usersShares.filter(function(item) {
-                        return usersShares.permission
+                        return item.permission;
                     }).length;
                     createdTexts.push({
+                        textId: text.id,
                         title: text.title,
                         creationDate: text.creation_date,
                         decodingDate: text.decryption_date,
@@ -94,6 +96,67 @@ requestManager.getCreatedTexts = function (req, res) {
     });
 };
 
+requestManager.getEncryptedTexts = function(req, res) {
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var userId = urlWrapper.searchParams.get('userId');
+
+    UserTextShare.find({user_id: userId}, function(err, userShares) {
+        var textsPermissions = [];
+        var textsIds = [];
+        userShares.forEach(function(item) {
+            textsPermissions.push({
+                textId: item.text_id,
+                permission: item.permission
+            });
+            textsIds.push(new ObjectID(item.text_id));
+
+            var textsCount = textsIds.length;
+            if(textsCount > 0) {
+                Text.where('_id').in(textsIds).exec(function(err, texts) {
+                    // counter to react only on one callback(callbacks are for each found item)
+                    textsCount--;
+                    if(textsCount === 0) {
+                        var encryptedTexts = [];
+                        texts = texts.filter(function(item) {
+                            return !item.decryption_date;
+                        });
+                        textsCount = texts.length;
+                        texts.forEach(function (text) {
+                            UserTextShare.find({text_id: text.id}, function(err, usersShares) {
+                                var userSelfPermission = usersShares.some(function(item) {
+                                    return (item.user_id === userId && item.permission);
+                                });
+                                var confirmed = usersShares.filter(function(item) {
+                                    return item.permission;
+                                }).length;
+                                encryptedTexts.push({
+                                    textId: text.id,
+                                    title: text.title,
+                                    creationDate: text.creation_date,
+                                    keepers: usersShares.length,
+                                    confirmed: confirmed,
+                                    permission: userSelfPermission
+                                });
+
+                                textsCount--;
+                                if(textsCount === 0) {
+                                    res.end(JSON.stringify(encryptedTexts));
+                                }
+                            })
+                        });
+                    }
+                })
+            } else {
+                res.end(JSON.stringify([]));
+            }
+            // Text.find({_id: {'$in': textsIds}}, function(err, texts) {
+            //
+            //     res.end(JSON.stringify([]));
+            // })
+        })
+    });
+};
+
 requestManager.getUsers = function (req, res) {
     User.find({}, function(err, users) {
         var usersForRes = users.map(function (item) {
@@ -111,7 +174,8 @@ requestManager.saveText = function (req, res, body) {
     var now = new Date();
     var text = new Text({
         title: body.title,
-        creator_id: body.creatorId});
+        creator_id: body.creatorId
+    });
 
     text.save(function (err, persistedText) {
         if(err){

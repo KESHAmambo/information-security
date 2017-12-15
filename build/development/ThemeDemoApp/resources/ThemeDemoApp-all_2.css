@@ -4846,6 +4846,10 @@
 .x-resizable-pinned .x-resizable-handle-southwest {
     background-position: 2px -2px;
 }
+/* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/src/Progress.scss:2 */
+.x-progress .x-progress-bar {
+    transition: 0.5s width;
+}
 /* C:/Users/abara/Desktop/Desktop/Projects/my-workspace/packages/local/my-classic-theme/sass/src/Component.scss:1 */
 .x-body {
     background: #efefef;

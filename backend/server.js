@@ -92,6 +92,9 @@ function onGetRequest(requestPath, req, res) {
         case '/api/createdTexts':
             requestManager.getCreatedTexts(req, res);
             break;
+        case '/api/encryptedTexts':
+            requestManager.getEncryptedTexts(req, res);
+            break;
         default:
             console.log('Unhandled request url: ', requestPath);
             res.statusCode = 404;
