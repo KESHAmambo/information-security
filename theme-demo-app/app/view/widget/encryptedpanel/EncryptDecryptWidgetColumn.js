@@ -70,36 +70,6 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptDecryptWidgetColumn',
                         }
                     });
                 }
-                // Ext.Ajax.request({
-                //     url: RequestHelper.getBaseUrl() + 'api/returnTextKey',
-                //     method: 'POST',
-                //     jsonData: {
-                //         userId: viewModel.get('userId'),
-                //         textId: record.get('textId'),
-                //         permission: isDecryptBtn
-                //     },
-                //     success: function() {
-                //         confirmed += (isDecryptBtn ? 1 : -1);
-                //         record.set('permission', isDecryptBtn);
-                //         record.set('confirmed', confirmed);
-                //     },
-                //     failure: function (response) {
-                //         if(response.status === 409) {
-                //             Ext.toast({
-                //                 html: 'Text is already decrypted!',
-                //                 align: 'tr'
-                //             });
-                //         } else {
-                //             Ext.toast({
-                //                 html: 'Error trying to give permission!',
-                //                 title: 'Error',
-                //                 userCls: 's-error-toast',
-                //                 align: 'tr'
-                //             });
-                //             console.log('server-side failure with status code ' + response.status);
-                //         }
-                //     }
-                // });
             }
         },
         items: [
