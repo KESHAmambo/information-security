@@ -258,9 +258,38 @@ Ext.define('ThemeDemoApp.view.main.Main', {
         me.callParent(arguments);
     },
 
+    getIntoOnlineUsersList: function() {
+        var me = this;
+        var viewModel = me.getViewModel();
+
+        me.waitForHolderAssignRequest = Ext.Ajax.request({
+            url: RequestHelper.getBaseUrl() + 'api/waitForHolderAssign',
+            method: 'GET',
+            timeout: 100000000,
+            params: {
+                userId: viewModel.get('userId'),
+                username: viewModel.get('username')
+            },
+            success: function(response) {
+                var responseText = Ext.decode(response.responseText);
+                Ext.create({
+                    xtype: 'text-clipboard-window',
+                    userShare: responseText.share,
+                    title: 'New text <b>' + responseText.title + '</b>'
+                });
+                me.getIntoOnlineUsersList();
+            },
+            failure: function () {
+                me.getIntoOnlineUsersList();
+            }
+        });
+    },
+
     listeners: {
         afterrender: function(view) {
             var viewModel = view.getViewModel();
+
+            view.getIntoOnlineUsersList();
 
             var composeCloseBtn = Ext.create({
                 xtype: 'button',
@@ -317,6 +346,7 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                             method: 'POST',
                             jsonData: {
                                 creatorId: viewModel.get('userId'),
+                                username: viewModel.get('username'),
                                 title: title,
                                 text: text,
                                 holders: holders
@@ -353,6 +383,9 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                     }
                 }
             });
+        },
+        destroy: function(view) {
+            view.waitForHolderAssignRequest.destroy();
         }
     }
 });

@@ -21,6 +21,9 @@ Ext.define('ThemeDemoApp.view.widget.decryptedpanel.DecryptedPanel', {
             },
             fields: [
                 {
+                    name: 'textId'
+                },
+                {
                     name: 'title'
                 },
                 {

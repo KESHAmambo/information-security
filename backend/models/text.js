@@ -11,6 +11,10 @@ var schema = new Schema({
         type: String,
         required: true
     },
+    creator: {
+        type: String,
+        required: true
+    },
     creation_date: {
         type: Date,
         required: true,

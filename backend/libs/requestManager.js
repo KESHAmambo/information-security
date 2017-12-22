@@ -7,6 +7,17 @@ var UserTextShare = require('../models/userTextShare').UserTextShare;
 var encryptor = require('../libs/encryption/encrypt');
 var BigInteger = require('../libs/encryption/biginteger');
 
+/**
+ * @type {Array}
+ * contains objects:
+ * {
+ *      userId,
+ *      userTextShare,
+ *      res
+ * }
+ */
+var onlineUsers = [];
+
 function RequestManager() {}
 
 var requestManager = new RequestManager();
@@ -57,6 +68,41 @@ requestManager.signUp = function(req, res){
             }));
         }
     });
+};
+
+requestManager.addUserToOnlineUsers = function (req, res) {
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var userId = urlWrapper.searchParams.get('userId');
+    var username = urlWrapper.searchParams.get('username');
+
+    var onlineUser = {
+        userId: userId,
+        username: username,
+        res: res
+    };
+    req.on('close', function() {
+        var userIndex = onlineUsers.indexOf(onlineUser);
+        onlineUsers.splice(userIndex, 1);
+    });
+
+    onlineUsers.forEach(function(item, index) {
+        if(item.userId === userId) {
+            onlineUsers.splice(index, 1);
+            console.log('There was a duplicate for online user id=' + userId);
+        }
+    });
+    onlineUsers.push(onlineUser);
+};
+
+requestManager.getOnlineUsers = function (req, res) {
+    var publicOnlineUsers = onlineUsers.map(function(item) {
+        return {
+            userId: item.userId,
+            username: item.username
+        }
+    });
+    res.statusCode = 200;
+    res.end(JSON.stringify(publicOnlineUsers));
 };
 
 requestManager.getCreatedTexts = function (req, res) {
@@ -118,6 +164,7 @@ requestManager.getDecryptedTexts = function(req, res) {
                             return {
                                 textId: item.id,
                                 title: item.title,
+                                creator: item.creator,
                                 creationDate: item.creation_date,
                                 decryptionDate: item.decryption_date
                             }
@@ -170,6 +217,7 @@ requestManager.getEncryptedTexts = function(req, res) {
                                     encryptedTexts.push({
                                         textId: text.id,
                                         title: text.title,
+                                        creator: text.creator,
                                         creationDate: text.creation_date,
                                         keepers: usersShares.length,
                                         confirmed: confirmed,
@@ -195,38 +243,51 @@ requestManager.getEncryptedTexts = function(req, res) {
     });
 };
 
-requestManager.givePermission = function(req, res, body) {
+requestManager.withdrawTextKey = function (req, res) {
+    var urlWrapper = new urlManager.URL('http://localhost' + req.url);
+    var userId = urlWrapper.searchParams.get('userId');
+    var textId = urlWrapper.searchParams.get('textId');
+
+    UserTextShare.findOne({user_id: userId, text_id: textId}, function(err, userShare) {
+        var userPrivateTextKey = userShare.share;
+        userShare.key_withdrawn = true;
+        userShare.permission = false;
+        userShare.share = 'withdrawn';
+        userShare.save(function(err, userShare) {
+            res.end(JSON.stringify({
+                share: userPrivateTextKey
+            }));
+        });
+    });
+};
+
+requestManager.returnTextKey = function(req, res, body) {
     Text.findOne({_id: body.textId}, function(err, text) {
         if(text.decryption_date) {
             res.statusCode = 409;
             res.end();
         } else {
             UserTextShare.findOne({user_id: body.userId, text_id: body.textId}, function(err, userShare) {
-                userShare.permission = body.permission;
-                if(body.permission) {
-                    UserTextShare.find({text_id: body.textId}, function(err, usersShares) {
-                        var permissions = usersShares.filter(function(item) {
-                            return item.permission;
-                        }).length;
-                        // (permissions + 1) due to current permission has not yet been saved
-                        if((permissions + 1) === usersShares.length) {
-                            text.decryption_date = Date.now();
-                            text.save(function(err, text) {
-                                userShare.save(function(err, userShare) {
-                                    res.end();
-                                });
-                            });
-                        } else {
+                userShare.permission = true;
+                userShare.share = body.share;
+                UserTextShare.find({text_id: body.textId}, function(err, usersShares) {
+                    var permissions = usersShares.filter(function(item) {
+                        return item.permission;
+                    }).length;
+                    // (permissions + 1) due to current permission has not yet been saved
+                    if((permissions + 1) === usersShares.length) {
+                        text.decryption_date = Date.now();
+                        text.save(function(err, text) {
                             userShare.save(function(err, userShare) {
                                 res.end();
                             });
-                        }
-                    })
-                } else {
-                    userShare.save(function(err, userShare) {
-                        res.end();
-                    });
-                }
+                        });
+                    } else {
+                        userShare.save(function(err, userShare) {
+                            res.end();
+                        });
+                    }
+                })
             });
         }
     });
@@ -249,7 +310,8 @@ requestManager.saveText = function (req, res, body) {
     var now = new Date();
     var text = new Text({
         title: body.title,
-        creator_id: body.creatorId
+        creator_id: body.creatorId,
+        creator: body.username
     });
 
     text.save(function (err, persistedText) {
@@ -265,13 +327,20 @@ requestManager.saveText = function (req, res, body) {
                 usersId: body.holders
             };
             var shares = encryptor.makeShares(encryptInput);
-            var usersShares = shares.users.map(function (item) {
-                var userShare = JSON.stringify(item.shares);
+            var usersShares = shares.users.map(function (holder) {
+                var userShare = JSON.stringify(holder.shares);
+                var onlineUser = onlineUsers.find(function(onlineUser) {
+                    return holder.userId === onlineUser.userId;
+                });
+                onlineUser.res.end(JSON.stringify({
+                    share: userShare,
+                    title: body.title
+                }));
                 return new UserTextShare({
                     text_id: persistedText.id,
-                    user_id: item.usersId,
-                    share: userShare
-                })
+                    user_id: holder.userId,
+                    share: 'withdrawn'
+                });
             });
             UserTextShare.create(usersShares, function (err, persistedUserShares) {
                 res.statusCode = 200;
@@ -327,8 +396,14 @@ requestManager.getTextDecryptedValue = function(req, res) {
                 };
                 sortUsersShares(usersShares);
                 usersShares.forEach(function(item) {
-                    var sharesDividedByLettersCount = JSON.parse(item.share);
-                    sharesDividedByLettersCount.forEach(function(sharedDividedByUsersCount) {
+                    try {
+                        var sharesByLettersCount = JSON.parse(item.share);
+                    } catch (e) {
+                        // No error message is needed here because we try to decrypt text after for loop
+                        // and if here was invalid share, decryption will throw exception
+                        return;
+                    }
+                    sharesByLettersCount.forEach(function(sharedDividedByUsersCount) {
                         sharedDividedByUsersCount.forEach(function(item) {
                             var parsedBigInt = item[1];
                             item[1] = new BigInteger(parsedBigInt._d, parsedBigInt._s);
@@ -336,15 +411,20 @@ requestManager.getTextDecryptedValue = function(req, res) {
                         })
                     });
                     decryptPayload.users.push({
-                        shares: sharesDividedByLettersCount
+                        shares: sharesByLettersCount
                     });
                 });
 
-                var decryptedText = encryptor.decrypt(decryptPayload);
+                try {
+                    var decryptedText = encryptor.decrypt(decryptPayload);
 
-                res.end(JSON.stringify({
-                    text: decryptedText
-                }))
+                    res.end(JSON.stringify({
+                        text: decryptedText
+                    }))
+                } catch (e) {
+                    res.statusCode = 403;
+                    res.end();
+                }
             });
         }
     })

@@ -11,11 +11,6 @@ var schema = new Schema({
         type: String,
         required: true
     },
-    key_withdrawn: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
     permission: {
         type: Boolean,
         required: true,

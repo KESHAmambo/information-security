@@ -53,7 +53,7 @@ encryptor.makeShares = function (input) {
         };
         output.users.push(user);
         for (var i = 0; i < str.length; i++) {
-            output.users[t].usersId = input.usersId[t];
+            output.users[t].userId = input.usersId[t];
             output.users[t].shares.push(Keys[i].shares[t]);
         }
     }

@@ -40,7 +40,7 @@ Ext.define('ThemeDemoApp.view.compose.ComposeWindow', {
             labelAlign: 'top',
             queryMode: 'local',
             displayField: 'username',
-            valueField: 'id',
+            valueField: 'userId',
             listConfig: {
                 shadow: false,
                 alwaysOnTop: true
@@ -48,12 +48,12 @@ Ext.define('ThemeDemoApp.view.compose.ComposeWindow', {
             store: Ext.create('Ext.data.Store', {
                 proxy: {
                     type: 'ajax',
-                    url: RequestHelper.getBaseUrl() + 'api/users',
+                    url: RequestHelper.getBaseUrl() + 'api/onlineUsers',
                     reader: {
                         type: 'json'
                     }
                 },
-                fields: ['id', 'username']
+                fields: ['userId', 'username']
             })
         });
 

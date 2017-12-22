@@ -1,0 +1,11 @@
+.x-window {
+  box-shadow: $s-window-box-shadow;
+  > .x-header {
+    .x-title-text {
+      text-align: left;
+      &:after {
+        display: none
+      }
+    }
+  }
+}

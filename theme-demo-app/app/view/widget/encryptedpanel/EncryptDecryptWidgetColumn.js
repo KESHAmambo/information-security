@@ -24,38 +24,82 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptDecryptWidgetColumn',
                 var viewModel = container.getViewModel();
                 var record = viewModel.get('record');
                 var isDecryptBtn = button.itemId === 'decryptBtn';
+                var confirmedCount = record.get('confirmed');
+                var textId = record.get('textId');
+                var userId = viewModel.get('userId');
+                var title = record.get('title');
 
-                Ext.Ajax.request({
-                    url: RequestHelper.getBaseUrl() + 'api/givePermission',
-                    method: 'POST',
-                    jsonData: {
-                        userId: viewModel.get('userId'),
-                        textId: record.get('textId'),
-                        permission: isDecryptBtn
-                    },
-                    success: function() {
-                        var confirmed = record.get('confirmed');
-                        confirmed += (isDecryptBtn ? 1 : -1);
-                        record.set('permission', isDecryptBtn);
-                        record.set('confirmed', confirmed);
-                    },
-                    failure: function (response) {
-                        if(response.status === 409) {
-                            Ext.toast({
-                                html: 'Text is already decrypted!',
-                                align: 'tr'
+                if(isDecryptBtn) {
+                    Ext.create({
+                        xtype: 'key-return-window',
+                        textId: textId,
+                        userId: userId,
+                        title: title,
+                        successCallback: function() {
+                            confirmedCount++;
+                            record.set('permission', true);
+                            record.set('confirmed', confirmedCount);
+                        }
+                    });
+                } else {
+                    Ext.Ajax.request({
+                        url: RequestHelper.getBaseUrl() + 'api/withdrawTextKey',
+                        method: 'GET',
+                        params: {
+                            textId: textId,
+                            userId: userId
+                        },
+                        success: function(response) {
+                            var responseText = Ext.decode(response.responseText);
+                            Ext.create({
+                                xtype: 'text-clipboard-window',
+                                userShare: responseText.share,
+                                title: title
                             });
-                        } else {
+                            confirmedCount--;
+                            record.set('permission', false);
+                            record.set('confirmed', confirmedCount);
+                        },
+                        failure: function () {
                             Ext.toast({
-                                html: 'Error trying to give permission!',
+                                html: 'Error trying to get private key for text!',
                                 title: 'Error',
                                 userCls: 's-error-toast',
                                 align: 'tr'
                             });
-                            console.log('server-side failure with status code ' + response.status);
                         }
-                    }
-                });
+                    });
+                }
+                // Ext.Ajax.request({
+                //     url: RequestHelper.getBaseUrl() + 'api/returnTextKey',
+                //     method: 'POST',
+                //     jsonData: {
+                //         userId: viewModel.get('userId'),
+                //         textId: record.get('textId'),
+                //         permission: isDecryptBtn
+                //     },
+                //     success: function() {
+                //         confirmed += (isDecryptBtn ? 1 : -1);
+                //         record.set('permission', isDecryptBtn);
+                //         record.set('confirmed', confirmed);
+                //     },
+                //     failure: function (response) {
+                //         if(response.status === 409) {
+                //             Ext.toast({
+                //                 html: 'Text is already decrypted!',
+                //                 align: 'tr'
+                //             });
+                //         } else {
+                //             Ext.toast({
+                //                 html: 'Error trying to give permission!',
+                //                 title: 'Error',
+                //                 userCls: 's-error-toast',
+                //                 align: 'tr'
+                //             });
+                //             console.log('server-side failure with status code ' + response.status);
+                //         }
+                //     }
+                // });
             }
         },
         items: [

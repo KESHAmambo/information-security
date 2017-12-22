@@ -72,8 +72,8 @@ function onPostRequest(requestPath, req, res) {
             case '/api/saveText':
                 requestManager.saveText(req, res, body);
                 break;
-            case '/api/givePermission':
-                requestManager.givePermission(req, res, body);
+            case '/api/returnTextKey':
+                requestManager.returnTextKey(req, res, body);
                 break;
             default:
                 console.log('Unhandled request url: ', requestPath);
@@ -109,6 +109,15 @@ function onGetRequest(requestPath, req, res) {
             break;
         case '/api/decryptedText':
             requestManager.getTextDecryptedValue(req, res);
+            break;
+        case '/api/waitForHolderAssign':
+            requestManager.addUserToOnlineUsers(req, res);
+            break;
+        case '/api/onlineUsers':
+            requestManager.getOnlineUsers(req, res);
+            break;
+        case '/api/withdrawTextKey':
+            requestManager.withdrawTextKey(req, res);
             break;
         default:
             console.log('Unhandled request url: ', requestPath);
