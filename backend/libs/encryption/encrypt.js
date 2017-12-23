@@ -1,6 +1,7 @@
 var devMode = false;
 
 var SecretSharing = require('./secret_sharing');
+
 var input = {
     text: 'Vadim norm sorre',
     numshares: 3,

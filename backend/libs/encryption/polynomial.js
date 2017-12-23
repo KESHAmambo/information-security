@@ -1,5 +1,6 @@
 var BigInteger = require('./biginteger');
 var $F = require('./rational_number');
+var crypto = require('crypto');
 
 var Polynomial = function() {
   var polynomial;
@@ -27,7 +28,7 @@ Polynomial.randomPolynomial = function(degree, intercept, n) {
   }
   var result = [intercept];
   for (var i = 0; i < degree; ++i) {
-    result.push(Math.ceil(Math.random() * 65536) - 32768);
+    result.push(Math.ceil(crypto.randomBytes(1)[0] / 256 * 65536) - 32768);
   }
   return new Polynomial(result);
 };
