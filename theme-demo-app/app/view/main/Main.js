@@ -178,12 +178,13 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                                         }
                                     },
                                     failure: function (response) {
-                                        Ext.toast({
+                                        var toast = new Ext.window.Toast({
                                             html: 'Error trying to get ' + button.section + ' texts count!',
                                             title: 'Error',
                                             userCls: 's-error-toast',
                                             align: 'tr'
                                         });
+                                        toast.show();
                                         console.log('server-side failure with status code ' + response.status);
                                     }
                                 });
@@ -333,12 +334,25 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                     var title = titleField.getValue();
                     var text = htmlEditor.getValue();
                     var holders = tagfield.getValue();
+                    var toast;
                     if(Ext.isEmpty(title)) {
-                        Ext.toast('Title is Empty!', undefined, 'tr');
+                        toast = new Ext.window.Toast({
+                            html: 'Title is Empty!',
+                            align: 'tr'
+                        });
+                        toast.show();
                     } else if(Ext.isEmpty(text)) {
-                        Ext.toast('Text is Empty!', undefined, 'tr');
+                        toast = new Ext.window.Toast({
+                            html: 'Text is Empty!',
+                            align: 'tr'
+                        });
+                        toast.show();
                     } else if(Ext.isEmpty(holders)) {
-                        Ext.toast('No holders added!', undefined, 'tr');
+                        toast = new Ext.window.Toast({
+                            html: 'No holders added!',
+                            align: 'tr'
+                        });
+                        toast.show();
                     } else {
                         encryptBtn.addCls('s-encrypt-btn-loading');
                         Ext.Ajax.request({
@@ -360,23 +374,27 @@ Ext.define('ThemeDemoApp.view.main.Main', {
                                     item.updateCount();
                                 });
 
-                                Ext.toast({
+                                toast = new Ext.window.Toast({
                                     html: 'Text was successfully encrypted',
                                     title: 'Success',
                                     userCls: 's-success-toast',
                                     align: 'tr'
                                 });
+                                toast.show();
+
                                 composeCloseBtn.fireEvent('click', composeCloseBtn);
                             },
                             failure: function (response) {
                                 encryptBtn.removeCls('s-encrypt-btn-loading');
-                                composeCloseBtn.fireEvent('click', composeCloseBtn);
-                                Ext.toast({
+
+                                toast = new Ext.window.Toast({
                                     html: 'Error trying to encrypt and store text!',
                                     title: 'Error',
                                     userCls: 's-error-toast',
                                     align: 'tr'
                                 });
+                                toast.show();
+
                                 console.log('server-side failure with status code ' + response.status);
                             }
                         });

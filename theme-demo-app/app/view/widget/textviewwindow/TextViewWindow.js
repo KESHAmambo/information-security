@@ -79,15 +79,17 @@ Ext.define('ThemeDemoApp.view.widget.textviewwindow.TextViewWindow', {
                 },
                 failure: function (response) {
                     htmleditor.setLoading(false);
+                    var toast;
                     if(response.status === 403) {
-                        Ext.toast({
+
+                        toast= new Ext.window.Toast({
                             html: 'Invalid key was submitted buy someone of holders!',
                             title: 'Error',
                             userCls: 's-error-toast',
                             align: 'tr'
                         });
                     } else {
-                        Ext.toast({
+                        toast= new Ext.window.Toast({
                             html: 'Error trying to load decrypted text!',
                             title: 'Error',
                             userCls: 's-error-toast',
@@ -95,6 +97,7 @@ Ext.define('ThemeDemoApp.view.widget.textviewwindow.TextViewWindow', {
                         });
                         console.log('server-side failure with status code ' + response.status);
                     }
+                    toast.show();
                 }
             });
         }

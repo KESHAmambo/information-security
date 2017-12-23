@@ -54,12 +54,13 @@ Ext.define('ThemeDemoApp.view.widget.keyreturnwindow.KeyReturnWindow', {
                     handler: function(button) {
                         var userTextKey = keyTextfield.getValue();
                         if(Ext.isEmpty(userTextKey)) {
-                            Ext.toast({
+                            var toast = new Ext.window.Toast({
                                 html: 'Private key for the text must not be empty!',
                                 title: 'Invalid input',
                                 userCls: 's-error-toast',
                                 align: 'tr'
                             });
+                            toast.show();
                             return;
                         }
                         Ext.Ajax.request({
@@ -71,23 +72,26 @@ Ext.define('ThemeDemoApp.view.widget.keyreturnwindow.KeyReturnWindow', {
                                 share: userTextKey
                             },
                             success: function(response) {
-                                Ext.toast({
+                                var toast = new Ext.window.Toast({
                                     html: 'Permission on decryption was successfully grunted',
                                     title: 'Success',
                                     userCls: 's-success-toast',
                                     align: 'tr'
                                 });
+                                toast.show();
+
                                 me.getSuccessCallback()();
                                 keyTextfield.setValue('');
                                 me.destroy();
                             },
                             failure: function () {
-                                Ext.toast({
+                                var toast = new Ext.window.Toast({
                                     html: 'Error trying to post private key for text!',
                                     title: 'Error',
                                     userCls: 's-error-toast',
                                     align: 'tr'
                                 });
+                                toast.show();
                             }
                         });
                     }

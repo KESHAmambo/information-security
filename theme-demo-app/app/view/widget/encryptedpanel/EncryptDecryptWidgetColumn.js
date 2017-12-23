@@ -61,12 +61,13 @@ Ext.define('ThemeDemoApp.view.widget.encryptedpanel.EncryptDecryptWidgetColumn',
                             record.set('confirmed', confirmedCount);
                         },
                         failure: function () {
-                            Ext.toast({
+                            var toast = new Ext.window.Toast({
                                 html: 'Error trying to get private key for text!',
                                 title: 'Error',
                                 userCls: 's-error-toast',
                                 align: 'tr'
                             });
+                            toast.show();
                         }
                     });
                 }

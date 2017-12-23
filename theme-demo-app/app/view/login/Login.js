@@ -95,12 +95,13 @@ Ext.define('ThemeDemoApp.view.login.Login', {
                                             },
                                             success: me.onSignSuccess.bind(me),
                                             failure: function(response) {
-                                                Ext.toast({
+                                                var toast = new Ext.window.Toast({
                                                     html: 'Invalid credentials!',
                                                     title: 'Error',
                                                     userCls: 's-error-toast',
                                                     align: 'tr'
                                                 });
+                                                toast.show();
                                                 console.log('server-side failure with status code ' + response.status);
                                             }
                                         });
@@ -162,26 +163,34 @@ Ext.define('ThemeDemoApp.view.login.Login', {
                                                 },
                                                 success: me.onSignSuccess.bind(me),
                                                 failure: function(response) {
+                                                    var toast;
                                                     if(response.status === 409) {
-                                                        Ext.toast({
+                                                        toast = new Ext.window.Toast({
                                                             html: 'User with this name already exists!',
                                                             title: 'Error',
                                                             userCls: 's-error-toast',
                                                             align: 'tr'
                                                         });
                                                     } else {
-                                                        Ext.toast({
+                                                        toast = new Ext.window.Toast({
                                                             html: 'Server error!',
                                                             title: 'Error',
                                                             userCls: 's-error-toast',
                                                             align: 'tr'
                                                         });
                                                     }
+                                                    toast.show();
                                                     console.log('server-side failure with status code ' + response.status);
                                                 }
                                             });
                                         } else {
-                                            Ext.toast('Passwords are not equal!', undefined, 'tr');
+                                            var toast = new Ext.window.Toast({
+                                                html: 'Passwords are not equal!',
+                                                title: 'Error',
+                                                userCls: 's-error-toast',
+                                                align: 'tr'
+                                            });
+                                            toast.show();
                                         }
                                     }
                                 }
